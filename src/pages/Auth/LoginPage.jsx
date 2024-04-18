@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const LoginPage = () => {
   return (
     <>
@@ -64,12 +66,12 @@ export const LoginPage = () => {
                 </div>
 
                 <div className="text-sm leading-6">
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
                   >
                     Olvidaste tu contraseña?
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -101,8 +103,8 @@ export const LoginPage = () => {
 
               {/*Login with google*/}
               <div className="mt-6">
-                <a
-                  href="/user/profile"
+                <Link
+                  to="/user/profile"
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
                 >
                   <svg
@@ -130,19 +132,19 @@ export const LoginPage = () => {
                   <span className="text-sm font-semibold leading-6">
                     Google
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Aún no eres miembro?{" "}
-            <a
-              href="register"
+            <Link
+              to="/auth/register"
               className="font-semibold leading-6 text-buddies-blue-700 hover:text-buddies-blue-500"
             >
               Regístrate!
-            </a>
+            </Link>
           </p>
         </div>
       </div>

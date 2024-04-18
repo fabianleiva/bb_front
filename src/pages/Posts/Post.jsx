@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
+import { Link } from "react-router-dom";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -83,12 +84,12 @@ export const Post = () => {
                 {product.breadcrumbs.map((breadcrumb) => (
                   <li key={breadcrumb.id}>
                     <div className="flex items-center">
-                      <a
-                        href={breadcrumb.href}
+                      <Link
+                        to={breadcrumb.href}
                         className="mr-2 text-sm font-medium text-gray-900"
                       >
                         {breadcrumb.name}
-                      </a>
+                      </Link>
                       <svg
                         width={16}
                         height={20}
@@ -103,13 +104,13 @@ export const Post = () => {
                   </li>
                 ))}
                 <li className="text-sm">
-                  <a
-                    href={product.href}
+                  <Link
+                    to={product.href}
                     aria-current="page"
                     className="font-medium text-gray-500 hover:text-gray-600"
                   >
                     {product.name}
-                  </a>
+                  </Link>
                 </li>
               </ol>
             </nav>
@@ -182,12 +183,12 @@ export const Post = () => {
                       ))}
                     </div>
                     <p className="sr-only">{reviews.average} out of 5 stars</p>
-                    <a
-                      href={reviews.href}
+                    <Link
+                      to={reviews.href}
                       className="ml-3 text-sm font-medium text-buddies-blue-700 hover:text-buddies-blue-500"
                     >
                       {reviews.totalCount} reviews
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -240,12 +241,12 @@ export const Post = () => {
                       <h3 className="text-sm font-medium text-gray-900">
                         Size
                       </h3>
-                      <a
-                        href="#"
+                      <Link
+                        to="#"
                         className="text-sm font-medium text-buddies-blue-700 hover:text-buddies-blue-500"
                       >
                         Size guide
-                      </a>
+                      </Link>
                     </div>
 
                     <RadioGroup

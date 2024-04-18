@@ -8,6 +8,7 @@ import {
   UserCircleIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const secondaryNavigation = [
   { name: "General", href: "#", icon: UserCircleIcon, current: true },
@@ -40,8 +41,8 @@ export const UserDashboard = () => {
             >
               {secondaryNavigation.map((item) => (
                 <li key={item.name}>
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     className={classNames(
                       item.current
                         ? "bg-gray-50 text-buddies-blue-700"
@@ -59,7 +60,7 @@ export const UserDashboard = () => {
                       aria-hidden="true"
                     />
                     {item.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
