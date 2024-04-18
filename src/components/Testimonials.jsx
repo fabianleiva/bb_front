@@ -3,7 +3,7 @@ const Testimonials = () => {
     [
       [
         {
-          body: "Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil. Aut enim doloremque et ipsam.",
+          body: "Comenzar ha importar mediante BulkBuddies me ha ayudado a comenzar un negocio desde casa luego de ser despedida de mi anterior trabajo, comprar fue sumamente sencillo y sobreotodo barato!.",
           author: {
             name: "Leslie Alexander",
             handle: "lesliealexander",
@@ -15,7 +15,7 @@ const Testimonials = () => {
       ],
       [
         {
-          body: "Aut reprehenderit voluptatem eum asperiores beatae id. Iure molestiae ipsam ut officia rem nulla blanditiis.",
+          body: "Comprar con BulkBuddies es sumamente sencillo, y ahora incluso he conseguido socios con los cuales no contaba.",
           author: {
             name: "Lindsay Walton",
             handle: "lindsaywalton",
@@ -29,7 +29,7 @@ const Testimonials = () => {
     [
       [
         {
-          body: "Voluptas quos itaque ipsam in voluptatem est. Iste eos blanditiis repudiandae. Earum deserunt enim molestiae ipsum perferendis recusandae saepe corrupti.",
+          body: "Con mi esposa lugo de jubilarnos decidimos abrir un negocio, pero no sabiamos como conseguir buenos productos, la gente de BulkBuddies nos asesoro y pudimos dar el puntapié inicial a nuestro negocio!.",
           author: {
             name: "Tom Cook",
             handle: "tomcook",
@@ -41,7 +41,7 @@ const Testimonials = () => {
       ],
       [
         {
-          body: "Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit incidunt excepturi rerum voluptatem minus harum.",
+          body: "Siempre desconfié de las web de venta al por mayor, y los stock minimos de compra siempre me dejaban fuera, pero ahora he podido acceder a buenos precios y cantidades razonables para un emprendedor como yo.",
           author: {
             name: "Leonard Krasner",
             handle: "leonardkrasner",
@@ -55,13 +55,12 @@ const Testimonials = () => {
   ];
 
   const featuredTestimonial = {
-    body: "Integer id nunc sit semper purus. Bibendum at lacus ut arcu blandit montes vitae auctor libero. Hac condimentum dignissim nibh vulputate ut nunc. Amet nibh orci mi venenatis blandit vel et proin. Non hendrerit in vel ac diam.",
+    body: "BulkBuddies viene a llenar un vacío que hace años desconectaba a los pequeños emprendedores de precios mayoristas que les permitiera competir con peces gordos, hoy en día esto se ha hecho posible gracias a BulkBuddies.",
     author: {
       name: "Brenna Goyette",
       handle: "brennagoyette",
       imageUrl:
         "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=1024&h=1024&q=80",
-      logoUrl: "https://tailwindui.com/img/logos/savvycal-logo-gray-900.svg",
     },
   };
 
@@ -73,7 +72,8 @@ const Testimonials = () => {
     <div className="relative isolate mt-32 sm:mt-56 sm:pt-32 mb-60">
       <svg
         className="absolute inset-0 -z-10 hidden h-full w-full stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)] sm:block"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <defs>
           <pattern
             id="55d3d46d-692e-45f2-becd-d8bdc9344f45"
@@ -81,7 +81,8 @@ const Testimonials = () => {
             height={200}
             x="50%"
             y={0}
-            patternUnits="userSpaceOnUse">
+            patternUnits="userSpaceOnUse"
+          >
             <path d="M.5 200V.5H200" fill="none" />
           </pattern>
         </defs>
@@ -91,12 +92,18 @@ const Testimonials = () => {
             strokeWidth={0}
           />
         </svg>
-        <rect width="100%" height="100%" strokeWidth={0} fill="url(#55d3d46d-692e-45f2-becd-d8bdc9344f45)" />
+        <rect
+          width="100%"
+          height="100%"
+          strokeWidth={0}
+          fill="url(#55d3d46d-692e-45f2-becd-d8bdc9344f45)"
+        />
       </svg>
       <div className="relative">
         <div
           className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div
             className="ml-[max(50%,38rem)] aspect-[1313/771] w-[82.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]"
             style={{
@@ -107,7 +114,8 @@ const Testimonials = () => {
         </div>
         <div
           className="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-8 opacity-25 blur-3xl xl:justify-end"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <div
             className="ml-[-22rem] aspect-[1313/771] w-[82.0625rem] flex-none origin-top-right rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] xl:ml-0 xl:mr-[calc(50%-12rem)]"
             style={{
@@ -118,7 +126,9 @@ const Testimonials = () => {
         </div>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-xl sm:text-center">
-            <h2 className="text-lg font-semibold leading-8 tracking-tight text-indigo-600">Testimonials</h2>
+            <h2 className="text-lg font-semibold leading-8 tracking-tight text-buddies-blue-700">
+              Testimonials
+            </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               We have worked with thousands of amazing people
             </p>
@@ -135,35 +145,48 @@ const Testimonials = () => {
                   alt=""
                 />
                 <div className="flex-auto">
-                  <div className="font-semibold">{featuredTestimonial.author.name}</div>
+                  <div className="font-semibold">
+                    {featuredTestimonial.author.name}
+                  </div>
                   <div className="text-gray-600">{`@${featuredTestimonial.author.handle}`}</div>
                 </div>
-                <img className="h-10 w-auto flex-none" src={featuredTestimonial.author.logoUrl} alt="" />
               </figcaption>
             </figure>
             {testimonials.map((columnGroup, columnGroupIdx) => (
-              <div key={columnGroupIdx} className="space-y-8 xl:contents xl:space-y-0">
+              <div
+                key={columnGroupIdx}
+                className="space-y-8 xl:contents xl:space-y-0"
+              >
                 {columnGroup.map((column, columnIdx) => (
                   <div
                     key={columnIdx}
                     className={classNames(
                       (columnGroupIdx === 0 && columnIdx === 0) ||
-                        (columnGroupIdx === testimonials.length - 1 && columnIdx === columnGroup.length - 1)
+                        (columnGroupIdx === testimonials.length - 1 &&
+                          columnIdx === columnGroup.length - 1)
                         ? "xl:row-span-2"
                         : "xl:row-start-1",
                       "space-y-8"
-                    )}>
+                    )}
+                  >
                     {column.map((testimonial) => (
                       <figure
                         key={testimonial.author.handle}
-                        className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                        className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5"
+                      >
                         <blockquote className="text-gray-900">
                           <p>{`“${testimonial.body}”`}</p>
                         </blockquote>
                         <figcaption className="mt-6 flex items-center gap-x-4">
-                          <img className="h-10 w-10 rounded-full bg-gray-50" src={testimonial.author.imageUrl} alt="" />
+                          <img
+                            className="h-10 w-10 rounded-full bg-gray-50"
+                            src={testimonial.author.imageUrl}
+                            alt=""
+                          />
                           <div>
-                            <div className="font-semibold">{testimonial.author.name}</div>
+                            <div className="font-semibold">
+                              {testimonial.author.name}
+                            </div>
                             <div className="text-gray-600">{`@${testimonial.author.handle}`}</div>
                           </div>
                         </figcaption>

@@ -1,45 +1,57 @@
-import { ArrowPathIcon, CloudArrowUpIcon, LockClosedIcon, ServerIcon } from "@heroicons/react/20/solid";
+import {
+  CloudArrowUpIcon,
+  LinkIcon,
+  ShoppingBagIcon,
+  ShieldCheckIcon,
+  ClipboardDocumentListIcon,
+  CurrencyDollarIcon,
+} from "@heroicons/react/20/solid";
 import Testimonials from "../../components/Testimonials";
 import Newsletter from "../../components/Newsletter";
 import Navbar from "../../components/Navbar";
+import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 const primaryFeatures = [
   {
-    name: "Push to deploy.",
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.",
+    name: "Crea un post.",
+    description:
+      "Publica un artículo de tu interés y deja que nosotros te ayudemos a difundirlo.",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "SSL certificates.",
-    description: "Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.",
-    icon: LockClosedIcon,
+    name: "Conecta.",
+    description:
+      "Encuentra personas que quieran comprar el mismo producto y permiteles ser parte del negocio.",
+    icon: LinkIcon,
   },
   {
-    name: "Database backups.",
-    description: "Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.",
-    icon: ServerIcon,
+    name: "Compra.",
+    description:
+      "Llega a la meta de items y nosotros nos encargamos de traerlo y distribuirlo!",
+    icon: ShoppingBagIcon,
   },
 ];
 const secondaryFeatures = [
   {
-    name: "Push to deploy",
+    name: "Compra asegurada",
     description:
-      "Commodo nec sagittis tortor mauris sed. Turpis tortor quis scelerisque diam id accumsan nullam tempus. Pulvinar etiam lacus volutpat eu. Phasellus praesent ligula sit faucibus.",
-    href: "#",
-    icon: CloudArrowUpIcon,
+      "Si algo sale mal con tu compra, no te preocupes, te devolvemos el dinero a ti y a tus socios para que puedan volver a buscar.",
+    href: "/info",
+    icon: ShieldCheckIcon,
   },
   {
-    name: "SSL certificates",
+    name: "Despacho dividido",
     description:
-      "Pellentesque enim a commodo malesuada turpis eleifend risus. Facilisis donec placerat sapien consequat tempor fermentum nibh.",
-    href: "#",
-    icon: LockClosedIcon,
+      "Te ayudamos a gestionar el despacho a cada uno de tus socios desde nuestra bodega, solo recibiras lo que te corresponde.",
+    href: "/info",
+    icon: ClipboardDocumentListIcon,
   },
   {
-    name: "Simple queues",
+    name: "Aduanas e impuestos",
     description:
-      "Pellentesque sit elit congue ante nec amet. Dolor aenean curabitur viverra suspendisse iaculis eget. Nec mollis placerat ultricies euismod ut condimentum.",
-    href: "#",
-    icon: ArrowPathIcon,
+      "Nos encargamos de gestionar los costos de importación al momento de la compra, dividiendo proporcionalmente este entre los socios.",
+    href: "/info",
+    icon: CurrencyDollarIcon,
   },
 ];
 
@@ -48,10 +60,13 @@ export const HomePage = () => {
     <div>
       <Navbar />
       <section>
-        <div className="relative isolate">
+        {/* Hero Section */}
+        <section className="relative isolate">
+          {/* Grid */}
           <svg
             className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
-            aria-hidden="true">
+            aria-hidden="true"
+          >
             <defs>
               <pattern
                 id="1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84"
@@ -59,7 +74,8 @@ export const HomePage = () => {
                 height={200}
                 x="50%"
                 y={-1}
-                patternUnits="userSpaceOnUse">
+                patternUnits="userSpaceOnUse"
+              >
                 <path d="M.5 200V.5H200" fill="none" />
               </pattern>
             </defs>
@@ -69,11 +85,18 @@ export const HomePage = () => {
                 strokeWidth={0}
               />
             </svg>
-            <rect width="100%" height="100%" strokeWidth={0} fill="url(#1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84)" />
+            <rect
+              width="100%"
+              height="100%"
+              strokeWidth={0}
+              fill="url(#1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84)"
+            />
           </svg>
+          {/* Bg color */}
           <div
             className="absolute left-1/2 right-0 top-0 -z-10 -ml-24 transform-gpu overflow-hidden blur-3xl lg:ml-24 xl:ml-48"
-            aria-hidden="true">
+            aria-hidden="true"
+          >
             <div
               className="aspect-[801/1036] w-[50.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
               style={{
@@ -85,32 +108,43 @@ export const HomePage = () => {
           <div className="overflow-hidden">
             <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
+                {/* Text */}
                 <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="flex text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                     BulkBuddies <h1 className="text-buddies-blue-700">.</h1>
                   </h1>
                   <p className="mt-6 text-xl leading-8 text-gray-900 sm:max-w-md lg:max-w-none">
-                    <b>Asóciate con personas y compra en el extranjero, al mejor precio!</b>
+                    <b>
+                      Asóciate con personas y compra en el extranjero, al mejor
+                      precio!
+                    </b>
                     <br />
-                    Mediante nuestro sistema de bulking facilitamos que accedas a precios mayoristas sin tener que
-                    comprar unidades en exceso, compra en base a lo que puedas vender!
+                    Mediante nuestro sistema de bulking facilitamos que accedas
+                    a precios mayoristas sin tener que comprar unidades en
+                    exceso, compra en base a lo que puedas vender!
                   </p>
                   <div className="mt-10 flex items-center gap-x-6">
-                    <a
-                      href="/posts/explore"
-                      className="rounded-md bg-buddies-blue-700 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700">
+                    <Link
+                      to="/posts/explore"
+                      className="rounded-md bg-buddies-blue-700 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
+                    >
                       Comienza
-                    </a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+                    </Link>
+                    <HashLink
+                      smooth
+                      to="/home/#testimonials"
+                      className="text-sm font-semibold leading-6 text-gray-900"
+                    >
                       Ver experiencias <span aria-hidden="true">→</span>
-                    </a>
+                    </HashLink>
                   </div>
                 </div>
+                {/* Images */}
                 <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
                   <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                        src="https://images.unsplash.com/photo-1665686306574-1ace09918530?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -120,7 +154,7 @@ export const HomePage = () => {
                   <div className="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                        src="https://images.unsplash.com/photo-1620306677888-10e367e6293d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -128,7 +162,7 @@ export const HomePage = () => {
                     </div>
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-x=.4&w=396&h=528&q=80"
+                        src="https://images.unsplash.com/photo-1605918321755-0b5ffd8a796a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -138,7 +172,7 @@ export const HomePage = () => {
                   <div className="w-44 flex-none space-y-8 pt-32 sm:pt-0">
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=left&w=400&h=528&q=80"
+                        src="https://images.unsplash.com/photo-1578357078586-491adf1aa5ba?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -146,7 +180,7 @@ export const HomePage = () => {
                     </div>
                     <div className="relative">
                       <img
-                        src="https://images.unsplash.com/photo-1670272505284-8faba1c31f7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                        src="https://images.unsplash.com/photo-1592963219838-6045ccbe0563?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         alt=""
                         className="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                       />
@@ -157,52 +191,52 @@ export const HomePage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Logo cloud */}
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <section className="mx-auto max-w-7xl px-6 lg:px-8 grayscale">
           <div className="mx-auto grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-12 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 sm:gap-y-14 lg:mx-0 lg:max-w-none lg:grid-cols-5">
             <img
-              className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-400.svg"
-              alt="Transistor"
+              className="col-span-2 max-h-24 w-full object-contain sm:col-start-2 lg:col-span-1"
+              src="https://amazon-prensa.es/dam/jcr:19614906-2857-47ca-8b4e-92606c927f2b/Amazon%20Business%20logo.png"
+              alt="amazon_business"
               width={158}
               height={48}
             />
             <img
-              className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-400.svg"
-              alt="Reform"
+              className="col-span-2 max-h-24 w-full object-contain lg:col-span-1"
+              src="https://1000logos.net/wp-content/uploads/2018/10/Alibaba-Logo.png"
+              alt="alibaba"
               width={158}
               height={48}
             />
             <img
-              className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-400.svg"
-              alt="Tuple"
+              className="col-span-2 col-start-2 max-h-24 w-full object-contain sm:col-start-auto lg:col-span-1"
+              src="https://s.globalsources.com/IMAGES/website/image/home/ic_logo_gs.svg"
+              alt="global_sources"
               width={158}
               height={48}
             />
             <img
-              className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-400.svg"
-              alt="SavvyCal"
+              className="col-span-2 max-h-24 w-full object-contain lg:col-span-1"
+              src="https://1000logos.net/wp-content/uploads/2020/07/DHgate-Logo.png"
+              alt="dhgate"
               width={158}
               height={48}
             />
             <img
-              className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-400.svg"
-              alt="Statamic"
+              className="col-span-2 max-h-24 w-full object-contain lg:col-span-1"
+              src="https://www.chinavasion.com/themes/whitecat/images/chinavasion_logo_newsletter.png"
+              alt="chinavision"
               width={158}
               height={48}
             />
           </div>
-        </div>
+        </section>
 
-        {/* Feature section */}
-        <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
-          <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-20 sm:rounded-3xl sm:px-10 sm:py-24 lg:py-24 xl:px-24">
+        {/* Feature section 1 */}
+        <section className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
+          <div className="relative isolate overflow-hidden bg-buddies-blue-700 px-6 py-20 sm:rounded-3xl sm:px-10 sm:py-24 lg:py-24 xl:px-24">
             <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-center lg:gap-y-0">
               <div className="lg:row-start-2 lg:max-w-md">
                 <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
@@ -210,25 +244,25 @@ export const HomePage = () => {
                   <br />
                   Comienza hoy el Bulking.
                 </h2>
-                <p className="mt-6 text-lg leading-8 text-gray-300">
-                  Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel
-                  nulla. Ac euismod vel sit maecenas.
+                <p className="mt-6 text-lg leading-8 text-buddies-blue-300">
+                  Publica un articulo que desees comercializar y encuentra
+                  socios para importarlo rápido, y siempre al mejor precio.
                 </p>
               </div>
               <img
-                src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Product screenshot"
                 className="relative -z-20 min-w-full max-w-xl rounded-xl shadow-xl ring-1 ring-white/10 lg:row-span-4 lg:w-[64rem] lg:max-w-none"
                 width={2432}
                 height={1442}
               />
               <div className="max-w-xl lg:row-start-3 lg:mt-10 lg:max-w-md lg:border-t lg:border-white/10 lg:pt-10">
-                <dl className="max-w-xl space-y-8 text-base leading-7 text-gray-300 lg:max-w-none">
+                <dl className="max-w-xl space-y-8 text-base leading-7 text-buddies-blue-300 lg:max-w-none">
                   {primaryFeatures.map((feature) => (
                     <div key={feature.name} className="relative">
-                      <dt className="ml-9 inline-block font-semibold text-white">
+                      <dt className="ml-9 inline-block font-semibold text-buddies-bg">
                         <feature.icon
-                          className="absolute left-1 top-1 h-5 w-5 text-buddies-blue-700"
+                          className="absolute left-1 top-1 h-5 w-5 text-buddies-bg"
                           aria-hidden="true"
                         />
                         {feature.name}
@@ -241,7 +275,8 @@ export const HomePage = () => {
             </div>
             <div
               className="pointer-events-none absolute left-12 top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-3xl lg:bottom-[-12rem] lg:top-auto lg:translate-y-0 lg:transform-gpu"
-              aria-hidden="true">
+              aria-hidden="true"
+            >
               <div
                 className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-25"
                 style={{
@@ -251,18 +286,23 @@ export const HomePage = () => {
               />
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Feature section */}
-        <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
+        {/* Feature section 2 */}
+        <section className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-buddies-blue-700">Compra fácil</h2>
+            <h2 className="text-base font-semibold leading-7 text-buddies-blue-700">
+              Compra fácil, compra seguro
+            </h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Todo lo que necesitas para importar
+              Importar nunca fue tan sencillo
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum
-              pulvinar et feugiat blandit at. In mi viverra elit nunc.
+              Olvídate del trabajo que genera hacer compras en el extranjero, o
+              de los montos mínimos para compras al por mayor, tú nos dices que
+              producto quieres, te ayudamos a conseguir socios con el mismo
+              interés y gestionamos tu compra y despacho mientras tu planificas
+              las ventas!.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -270,14 +310,20 @@ export const HomePage = () => {
               {secondaryFeatures.map((feature) => (
                 <div key={feature.name} className="flex flex-col">
                   <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                    <feature.icon className="h-5 w-5 flex-none text-buddies-blue-700" aria-hidden="true" />
+                    <feature.icon
+                      className="h-5 w-5 flex-none text-buddies-blue-700"
+                      aria-hidden="true"
+                    />
                     {feature.name}
                   </dt>
                   <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
                     <p className="flex-auto">{feature.description}</p>
                     <p className="mt-6">
-                      <a href={feature.href} className="text-sm font-semibold leading-6 text-buddies-blue-700">
-                        Learn more <span aria-hidden="true">→</span>
+                      <a
+                        href={feature.href}
+                        className="text-sm font-semibold leading-6 text-buddies-blue-700"
+                      >
+                        Conoce más <span aria-hidden="true">→</span>
                       </a>
                     </p>
                   </dd>
@@ -285,13 +331,17 @@ export const HomePage = () => {
               ))}
             </dl>
           </div>
-        </div>
+        </section>
 
         {/* Newsletter section */}
-        <Newsletter />
+        <section>
+          <Newsletter />
+        </section>
 
         {/* Testimonials section */}
-        <Testimonials />
+        <section id="testimonials">
+          <Testimonials />
+        </section>
       </section>
     </div>
   );

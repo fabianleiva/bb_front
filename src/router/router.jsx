@@ -1,12 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-
 import { Root } from "../Route";
 import { HomePage } from "../pages/Common/Home";
-import { AuthLayout } from "../layouts/AuthLayout";
+import { MainLayout } from "../layouts/MainLayout";
 import { LoginPage } from "../pages/Auth/LoginPage";
 import { Register } from "../pages/Auth/Register";
 import { Explore } from "../pages/Posts/Explore";
-import { PostsLayout } from "../layouts/PostsLayout";
 import { Info } from "../pages/Common/Info";
 import { Post } from "../pages/Posts/Post";
 import { Publish } from "../pages/Posts/Publish";
@@ -27,7 +25,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "posts",
-        element: <PostsLayout />,
+        element: <MainLayout />,
         children: [
           {
             path: "explore",
@@ -45,7 +43,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "auth",
-        element: <AuthLayout />,
+        element: <MainLayout />,
         children: [
           {
             path: "login",
