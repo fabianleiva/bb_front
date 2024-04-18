@@ -16,7 +16,7 @@ const Navbar = () => {
     <>
       <header className="fixed inset-x-0 top-0 z-50">
         <nav
-          className="rounded-b-[2rem] mx-auto grid grid-cols-3 max-w-10xl align-middle justify-between p-4 lg:px-8 backdrop-blur-sm bg-buddies-bg/30 shadow-md max-h-[--heigth-navbar]"
+          className="rounded-b-[2rem] mx-auto grid grid-cols-2 lg:grid-cols-3 max-w-10xl align-middle justify-between p-4 lg:px-8 backdrop-blur-sm bg-buddies-bg/30 shadow-md max-h-[--heigth-navbar]"
           aria-label="Global"
         >
           {/* Logo */}
@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
 
           {/* Navegación*/}
-          <div className="relative isolate z-50">
+          <div className="relative isolate hidden lg:flex z-50">
             <div className="bottom-8 m-auto inset-x-0 justify-between max-w-80 px-6 py-1 rounded-full flex lg:gap-x-12 ">
               {navigation.map((item) => (
                 <Link
@@ -52,7 +52,7 @@ const Navbar = () => {
           </div>
 
           {/* Ingresar / Login */}
-          <div className="flex justify-end mr-4">
+          <div className="justify-end mr-4 hidden lg:flex">
             <Link
               to="/auth/login"
               className="flex justify-center w-[8rem] rounded-full bg-white border border-buddies-blue-700 px-6 py-1 text-sm font-semibold text-buddies-blue-700 shadow-sm hover:bg-buddies-blue-700 hover:text-buddies-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
@@ -76,7 +76,7 @@ const Navbar = () => {
           </div>
 
           {/* Burger menu */}
-          <div className="flex lg:hidden">
+          <div className="flex lg:hidden justify-end mr-4">
             <button
               type="button"
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
