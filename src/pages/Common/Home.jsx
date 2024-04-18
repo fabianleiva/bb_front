@@ -11,6 +11,7 @@ import Newsletter from "../../components/Newsletter";
 import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import { Footer } from "../../components/Footer";
 const primaryFeatures = [
   {
     name: "Crea un post.",
@@ -343,6 +344,7 @@ export const HomePage = () => {
           <Testimonials />
         </section>
       </section>
+      <Footer />
     </div>
   );
 };
