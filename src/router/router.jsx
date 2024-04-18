@@ -9,6 +9,7 @@ import { Info } from "../pages/Common/Info";
 import { Post } from "../pages/Posts/Post";
 import { Publish } from "../pages/Posts/Publish";
 import { MyProfile } from "../pages/Users/MyProfile";
+import { NotFound } from "../pages/Common/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
     element: <Root />,
     children: [
       /// Auth Routes
+      {
+        path: "*",
+        element: <NotFound />,
+      },
       {
         path: "home",
         element: <HomePage />,
