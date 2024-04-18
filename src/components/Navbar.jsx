@@ -36,7 +36,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Navegación*/}
+          {/* Desktop navigation*/}
           <div className="relative isolate hidden lg:flex z-50">
             <div className="bottom-8 m-auto inset-x-0 justify-between max-w-80 px-6 py-1 rounded-full flex lg:gap-x-12 ">
               {navigation.map((item) => (
@@ -87,27 +87,8 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Buscar */}
-          {/* <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/" className="flex text-sm font-semibold leading-6 text-gray-700">
-              Buscar
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-5 ml-1">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </Link>
-          </div> */}
+          {/* Mobile navigation */}
         </nav>
-
         <Dialog
           as="div"
           className="lg:hidden"
@@ -121,8 +102,8 @@ const Navbar = () => {
                 <span className="sr-only">BulkBuddies</span>
                 <img
                   className="h-8 w-auto"
-                  src="/public/bulkbuddies_logo.png"
-                  alt=""
+                  src="/bulkbuddies_logo.png"
+                  alt="logo"
                 />
               </Link>
               <button
@@ -141,6 +122,7 @@ const Navbar = () => {
                     <Link
                       key={item.name}
                       to={item.href}
+                      onClick={setMobileMenuOpen(false)}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
