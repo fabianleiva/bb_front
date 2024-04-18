@@ -8,6 +8,7 @@ import { Explore } from "../pages/Posts/Explore";
 import { Info } from "../pages/Common/Info";
 import { Post } from "../pages/Posts/Post";
 import { Publish } from "../pages/Posts/Publish";
+import { MyProfile } from "../pages/Users/MyProfile";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,20 @@ export const router = createBrowserRouter([
           {
             path: "register",
             element: <Register />,
+          },
+        ],
+      },
+      {
+        path: "user",
+        element: <MainLayout />,
+        children: [
+          {
+            path: "profile",
+            element: <MyProfile />,
+          },
+          {
+            path: "bulkings",
+            element: <MyProfile />,
           },
         ],
       },
