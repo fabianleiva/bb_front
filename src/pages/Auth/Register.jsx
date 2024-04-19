@@ -1,18 +1,66 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import HttpService from "../../service/http.service";
+import { REGISTER_URL } from "../../api/urls";
 
 export const Register = () => {
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    repeat_password: "",
+  });
+  const [validForm, setValidForm] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      console.log("Formulario inválido");
+    }
+    registerUser();
+  };
+
+  const validateForm = () => {
+    if (form.first_name === "") {
+      return false;
+    }
+    if (form.last_name === "") {
+      return false;
+    }
+    if (form.email === "") {
+      return false;
+    }
+    if (form.password === "") {
+      return false;
+    }
+    if (form.password !== form.repeat_password) {
+      return false;
+    }
+    return true;
+  };
+
+  const registerUser = async () => {
+    try {
+      const response = await HttpService.post(REGISTER_URL, form);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+    setValidForm(validateForm());
+  };
+
   return (
     <>
       <div className="flex min-h-[100vh] flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="/bulkbuddies_logo.png"
-            alt="Your Company"
-          />
-          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Regístrate
-          </h2>
+          <img className="mx-auto h-10 w-auto" src="/bulkbuddies_logo.png" alt="Your Company" />
+          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Regístrate</h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
@@ -21,28 +69,30 @@ export const Register = () => {
               <div className="relative -space-y-px rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300" />
                 <div>
-                  <label htmlFor="email-address" className="sr-only">
+                  <label htmlFor="first_name" className="sr-only">
                     Nombre
                   </label>
                   <input
-                    id="email-address"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
+                    id="first_name"
+                    name="first_name"
+                    type="text"
+                    autoComplete="first_name"
                     required
+                    onChange={handleChange}
                     className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Nombre"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email-address" className="sr-only">
+                  <label htmlFor="last_name" className="sr-only">
                     Apellido
                   </label>
                   <input
-                    id="email-address"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
+                    id="last_name"
+                    name="last_name"
+                    type="text"
+                    autoComplete="last_name"
+                    onChange={handleChange}
                     required
                     className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Apellido"
@@ -57,6 +107,7 @@ export const Register = () => {
                     name="email"
                     type="email"
                     autoComplete="email"
+                    onChange={handleChange}
                     required
                     className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Correo"
@@ -70,6 +121,7 @@ export const Register = () => {
                     id="password"
                     name="password"
                     type="password"
+                    onChange={handleChange}
                     autoComplete="current-password"
                     required
                     className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
@@ -77,15 +129,16 @@ export const Register = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="password" className="sr-only">
+                  <label htmlFor="repeat_password" className="sr-only">
                     Repetir Contraseña
                   </label>
                   <input
-                    id="password"
-                    name="password"
+                    id="repeat_password"
+                    name="repeat_password"
                     type="password"
-                    autoComplete="current-password"
+                    autoComplete="off"
                     required
+                    onChange={handleChange}
                     className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Repetir Contraseña"
                   />
@@ -94,9 +147,12 @@ export const Register = () => {
 
               <div>
                 <button
+                  disabled={!validForm}
+                  onClick={handleSubmit}
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
-                >
+                  className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700
+                  disabled:opacity-50 disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:focus-visible:outline-offset-0 disabled:text-gray-500 disabled:focus-visible:outline-0 
+                  ">
                   Crear cuenta
                 </button>
               </div>
@@ -104,29 +160,19 @@ export const Register = () => {
 
             <div>
               <div className="relative mt-10">
-                <div
-                  className="absolute inset-0 flex items-center"
-                  aria-hidden="true"
-                >
+                <div className="absolute inset-0 flex items-center" aria-hidden="true">
                   <div className="w-full border-t border-gray-200" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-white px-6 text-gray-900">
-                    O regístrate con
-                  </span>
+                  <span className="bg-white px-6 text-gray-900">O regístrate con</span>
                 </div>
               </div>
 
               <div className="mt-6">
                 <Link
                   to="#"
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
-                >
-                  <svg
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                  >
+                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent">
+                  <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
                     <path
                       d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z"
                       fill="#EA4335"
@@ -144,11 +190,8 @@ export const Register = () => {
                       fill="#34A853"
                     />
                   </svg>
-                  <span className="text-sm font-semibold leading-6">
-                    Google
-                  </span>
+                  <span className="text-sm font-semibold leading-6">Google</span>
                 </Link>
-
               </div>
             </div>
           </div>

@@ -5,11 +5,7 @@ export const LoginPage = () => {
     <>
       <div className="flex min-h-[100vh] flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="/bulkbuddies_logo.png"
-            alt="Your Company"
-          />
+          <img className="mx-auto h-10 w-auto" src="/bulkbuddies_logo.png" alt="Your Company" />
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Ingresa a tu cuenta
           </h2>
@@ -17,7 +13,7 @@ export const LoginPage = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6">
               <div className="relative -space-y-px rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300" />
                 <div>
@@ -57,19 +53,13 @@ export const LoginPage = () => {
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300 text-buddies-blue-700 focus:ring-buddies-blue-700"
                   />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-3 block text-sm leading-6 text-gray-900"
-                  >
+                  <label htmlFor="remember-me" className="ml-3 block text-sm leading-6 text-gray-900">
                     Recuérdame
                   </label>
                 </div>
 
                 <div className="text-sm leading-6">
-                  <Link
-                    to="#"
-                    className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
-                  >
+                  <Link to="#" className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500">
                     Olvidaste tu contraseña?
                   </Link>
                 </div>
@@ -79,8 +69,7 @@ export const LoginPage = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
-                >
+                  className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700">
                   Ingresar
                 </button>
               </div>
@@ -88,16 +77,11 @@ export const LoginPage = () => {
 
             <div>
               <div className="relative mt-10">
-                <div
-                  className="absolute inset-0 flex items-center"
-                  aria-hidden="true"
-                >
+                <div className="absolute inset-0 flex items-center" aria-hidden="true">
                   <div className="w-full border-t border-gray-200" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-white px-6 text-gray-900">
-                    O continúa con
-                  </span>
+                  <span className="bg-white px-6 text-gray-900">O continúa con</span>
                 </div>
               </div>
 
@@ -105,13 +89,8 @@ export const LoginPage = () => {
               <div className="mt-6">
                 <Link
                   to="/user/profile"
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
-                >
-                  <svg
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                  >
+                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent">
+                  <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
                     <path
                       d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z"
                       fill="#EA4335"
@@ -129,9 +108,7 @@ export const LoginPage = () => {
                       fill="#34A853"
                     />
                   </svg>
-                  <span className="text-sm font-semibold leading-6">
-                    Google
-                  </span>
+                  <span className="text-sm font-semibold leading-6">Google</span>
                 </Link>
               </div>
             </div>
@@ -141,8 +118,7 @@ export const LoginPage = () => {
             Aún no eres miembro?{" "}
             <Link
               to="/auth/register"
-              className="font-semibold leading-6 text-buddies-blue-700 hover:text-buddies-blue-500"
-            >
+              className="font-semibold leading-6 text-buddies-blue-700 hover:text-buddies-blue-500">
               Regístrate!
             </Link>
           </p>
