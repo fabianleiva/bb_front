@@ -1,1 +1,1 @@
-export const REGISTER_URL = "http://localhost:3000/api/v1/register";
+export const REGISTER_URL = "http://localhost:3000/register";

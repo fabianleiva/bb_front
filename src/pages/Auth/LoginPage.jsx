@@ -1,6 +1,17 @@
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
   return (
     <>
       <div className="flex min-h-[100vh] flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -13,7 +24,7 @@ export const LoginPage = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <form className="space-y-6">
+            <form onSubmit={onSubmit} className="space-y-6">
               <div className="relative -space-y-px rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300" />
                 <div>
@@ -25,10 +36,25 @@ export const LoginPage = () => {
                     name="email"
                     type="email"
                     autoComplete="email"
-                    required
                     className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Email address"
+                    {...register("email", {
+                      required: {
+                        value: true,
+                        message: "Correo es requerido",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: "Correo no es válido",
+                      },
+                    })}
                   />
+                  {errors.email?.type === "required" && (
+                    <small className="ml-1.5 text-red-600">{errors.email?.type === "required"}</small>
+                  )}
+                  {errors.email?.type === "pattern" && (
+                    <small className="ml-1.5 text-red-600">{errors.email?.message}</small>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="password" className="sr-only">
@@ -39,7 +65,12 @@ export const LoginPage = () => {
                     name="password"
                     type="password"
                     autoComplete="current-password"
-                    required
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: "Contraseña es requerida",
+                      },
+                    })}
                     className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Password"
                   />
