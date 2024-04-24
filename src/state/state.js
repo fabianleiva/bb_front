@@ -7,4 +7,6 @@ export const storeBulkBuddies = create((set) => ({
   setUserState: (value) => set(() => ({ userState: value })),
   isAuth: false,
   setIsAuth: (value) => set(() => ({ isAuth: value })),
+  alert: {},
+  setAlert: (value) => set(() => ({ alert: value })),
 }))
