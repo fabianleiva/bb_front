@@ -1,1 +1,2 @@
-export const REGISTER_URL = "http://localhost:3000/register";
+export const REGISTER_URL = "/register";
+export const LOGIN_URL = "/login";

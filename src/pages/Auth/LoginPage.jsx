@@ -1,5 +1,7 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { storeBulkBuddies } from "../../state/state";
 
 export const LoginPage = () => {
   const {
@@ -8,9 +10,28 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm();
 
+  const { setAlert } = storeBulkBuddies();
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    login(data);
   });
+
+  const login = async (data) => {
+    try {
+      const request = await axios.post("http://localhost:3000/login", data);
+      console.log(request.data);
+      const { first_name, last_name, token } = request.data;
+
+      setAlert({ type: "success", message: `Bienvenido ${first_name} ${last_name}` });
+      localStorage.setItem("token", token);
+    } catch ({ response }) {
+      setAlert({ type: "error", message: response.data.message });
+    }
+  };
+
+  const loginGoogle = async () => {
+    window.open(`http://localhost:3000/auth/google`, "_self");
+  };
 
   return (
     <>
@@ -50,7 +71,7 @@ export const LoginPage = () => {
                     })}
                   />
                   {errors.email?.type === "required" && (
-                    <small className="ml-1.5 text-red-600">{errors.email?.type === "required"}</small>
+                    <small className="ml-1.5 text-red-600">{errors.email?.message}</small>
                   )}
                   {errors.email?.type === "pattern" && (
                     <small className="ml-1.5 text-red-600">{errors.email?.message}</small>
@@ -74,6 +95,9 @@ export const LoginPage = () => {
                     className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Password"
                   />
+                  {errors.password?.type === "required" && (
+                    <small className="ml-1.5 text-red-600">{errors.password?.message}</small>
+                  )}
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -118,8 +142,8 @@ export const LoginPage = () => {
 
               {/*Login with google*/}
               <div className="mt-6">
-                <Link
-                  to="/user/profile"
+                <button
+                  onClick={loginGoogle}
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent">
                   <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
                     <path
@@ -140,7 +164,7 @@ export const LoginPage = () => {
                     />
                   </svg>
                   <span className="text-sm font-semibold leading-6">Google</span>
-                </Link>
+                </button>
               </div>
             </div>
           </div>

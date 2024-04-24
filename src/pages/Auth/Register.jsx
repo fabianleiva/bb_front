@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
-import HttpService from "../../service/http.service";
 import { REGISTER_URL } from "../../api/urls";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export const Register = () => {
   const {
@@ -21,7 +20,7 @@ export const Register = () => {
 
   const registerUser = async (data) => {
     try {
-      const response = await HttpService.post(REGISTER_URL, data);
+      const response = await axios.post(REGISTER_URL, data);
       console.log(response);
     } catch (error) {
       console.error(error);
