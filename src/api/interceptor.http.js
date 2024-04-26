@@ -1,16 +1,17 @@
 import axios from "axios";
 
+axios.defaults.baseURL = "https://bulkbuddies.onrender.com/api/v1/";
+
 export const axiosInterceptor = () => {
 
-
-  const addToken = (config) => { 
+  const addToken = (config) => {
     const token = localStorage.getItem("token");
     if (token) {
       config.withCredentials = true;
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-  }
+  };
 
   axios.interceptors.request.use(
     (config) => {
@@ -38,4 +39,4 @@ export const axiosInterceptor = () => {
       return Promise.reject(error);
     }
   );
-}
+};
