@@ -11,7 +11,8 @@ const navigation = [
 
 const Navbar = () => {
   const { mobileMenuOpen, setMobileMenuOpen } = storeBulkBuddies();
-
+  const isAuth = storeBulkBuddies((state) => state.isAuth);
+  console.log(isAuth);
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50">
@@ -52,39 +53,40 @@ const Navbar = () => {
           </div>
 
           {/* Ingresar / Login */}
-          <div className="justify-end mr-4 hidden lg:flex">
-            <Link
-              to="/auth/login"
-              className="flex justify-center w-[8rem] rounded-full bg-white border border-buddies-blue-700 px-6 py-1 text-sm font-semibold text-buddies-blue-700 shadow-sm hover:bg-buddies-blue-700 hover:text-buddies-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
-            >
-              Ingresar
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-5"
+          {!isAuth && (
+            <div className="justify-end mr-4 hidden lg:flex">
+              <Link
+                to="/auth/login"
+                className="flex justify-center w-[8rem] rounded-full bg-white border border-buddies-blue-700 px-6 py-1 text-sm font-semibold text-buddies-blue-700 shadow-sm hover:bg-buddies-blue-700 hover:text-buddies-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
-                />
-              </svg>
-            </Link>
-          </div>
+                Ingresar
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
+                  />
+                </svg>
+              </Link>
+            </div>
+          )}
 
           {/* Burger menu */}
           <div className="flex lg:hidden justify-end mr-4">
-            <button
-              type="button"
+            <Link
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
+            </Link>
           </div>
 
           {/* Mobile navigation */}
@@ -106,14 +108,13 @@ const Navbar = () => {
                   alt="logo"
                 />
               </Link>
-              <button
-                type="button"
+              <Link
                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
                 <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </Link>
             </div>
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
