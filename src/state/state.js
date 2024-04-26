@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 export const storeBulkBuddies = create((set) => ({
   mobileMenuOpen: false,
@@ -9,4 +9,6 @@ export const storeBulkBuddies = create((set) => ({
   setIsAuth: (value) => set(() => ({ isAuth: value })),
   alert: {},
   setAlert: (value) => set(() => ({ alert: value })),
-}))
+  products: [],
+  setProducts: (value) => set(() => ({ products: value })),
+}));
