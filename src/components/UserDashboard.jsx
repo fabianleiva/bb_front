@@ -86,12 +86,11 @@ export const UserDashboard = () => {
                   </dt>
                   <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                     <div className="text-gray-900">Tom</div>
-                    <button
-                      type="button"
+                    <Link
                       className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
                     >
                       Actualizar
-                    </button>
+                    </Link>
                   </dd>
                 </div>
                 <div className="pt-6 sm:flex">
@@ -100,12 +99,11 @@ export const UserDashboard = () => {
                   </dt>
                   <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                     <div className="text-gray-900">Cook</div>
-                    <button
-                      type="button"
+                    <Link
                       className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
                     >
                       Actualizar
-                    </button>
+                    </Link>
                   </dd>
                 </div>
                 <div className="pt-6 sm:flex">
@@ -114,12 +112,11 @@ export const UserDashboard = () => {
                   </dt>
                   <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                     <div className="text-gray-900">tom.cook@example.com</div>
-                    <button
-                      type="button"
+                    <Link
                       className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
                     >
                       Actualizar
-                    </button>
+                    </Link>
                   </dd>
                 </div>
               </dl>
@@ -142,12 +139,11 @@ export const UserDashboard = () => {
                   </dt>
                   <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                     <div className="text-gray-900">English</div>
-                    <button
-                      type="button"
+                    <Link
                       className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
                     >
                       Update
-                    </button>
+                    </Link>
                   </dd>
                 </div>
                 <div className="pt-6 sm:flex">
@@ -156,12 +152,11 @@ export const UserDashboard = () => {
                   </dt>
                   <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                     <div className="text-gray-900">DD-MM-YYYY</div>
-                    <button
-                      type="button"
+                    <Link
                       className="font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
                     >
                       Update
-                    </button>
+                    </Link>
                   </dd>
                 </div>
                 <Switch.Group as="div" className="flex pt-6">

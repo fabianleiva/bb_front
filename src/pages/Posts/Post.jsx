@@ -318,12 +318,12 @@ export const Post = () => {
                     </RadioGroup>
                   </div>
 
-                  <button
+                  <Link
                     type="submit"
                     className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-buddies-blue-700 px-8 py-3 text-base font-medium text-white hover:bg-buddies-blue-500 focus:outline-none focus:ring-2 focus:ring-buddies-blue-700 focus:ring-offset-2"
                   >
                     Add to bag
-                  </button>
+                  </Link>
                 </form>
               </div>
 

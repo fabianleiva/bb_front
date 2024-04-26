@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Newsletter = () => {
   return (
     <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
@@ -21,11 +23,11 @@ const Newsletter = () => {
             className="min-w-0 flex-auto rounded-md border-0 bg-buddies-bg px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6"
             placeholder="Ingresa tu correo"
           />
-          <button
+          <Link
             type="submit"
             className="flex-none rounded-md bg-buddies-bg px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
             Notifícame
-          </button>
+          </Link>
         </form>
         <svg
           viewBox="0 0 1024 1024"
