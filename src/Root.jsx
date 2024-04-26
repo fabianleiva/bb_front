@@ -3,7 +3,7 @@ import { Toaster, toast } from "sonner";
 import { storeBulkBuddies } from "./state/state";
 
 export const Root = () => {
-  const { alert } = storeBulkBuddies();
+  const alert = storeBulkBuddies((state) => state.alert);
   const { pathname } = useLocation();
 
   if (alert.type === "error") {
@@ -16,6 +16,8 @@ export const Root = () => {
   if (pathname === "/") {
     return <Navigate to="/home" />;
   }
+
+  //FUNCION ISAUTH CUANDO RECARGA
 
   return (
     <main className="min-h-[100vh]">
