@@ -1,5 +1,7 @@
 import { REGISTER_URL } from "../../api/urls";
+import { REGISTER_GOOGLE_URL } from "../../api/urls";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export const Register = () => {
@@ -27,17 +29,32 @@ export const Register = () => {
     }
   };
 
+  const registerGoogle = async () => {
+    window.open(REGISTER_GOOGLE_URL, "_self");
+  };
+
   return (
     <>
       <div className="flex min-h-[100vh] flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img className="mx-auto h-10 w-auto" src="/bulkbuddies_logo.png" alt="Your Company" />
-          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Regístrate</h2>
+          <img
+            className="mx-auto h-10 w-auto"
+            src="/bulkbuddies_logo.png"
+            alt="Your Company"
+          />
+          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            Regístrate
+          </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <form onSubmit={onSubmit} className="space-y-6" action="#" method="POST">
+            <form
+              onSubmit={onSubmit}
+              className="space-y-6"
+              action="#"
+              method="POST"
+            >
               <div className="relative -space-y-px rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300" />
                 <div>
@@ -63,10 +80,14 @@ export const Register = () => {
                     placeholder="Nombre"
                   />
                   {errors.first_name?.type === "required" && (
-                    <small className="ml-1.5 text-red-600">{errors.first_name?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.first_name?.message}
+                    </small>
                   )}
                   {errors.first_name?.type === "minLength" && (
-                    <small className="ml-1.5 text-red-600">{errors.first_name?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.first_name?.message}
+                    </small>
                   )}
                 </div>
                 <div>
@@ -92,10 +113,14 @@ export const Register = () => {
                     placeholder="Apellido"
                   />
                   {errors.last_name?.type === "required" && (
-                    <small className="ml-1.5 text-red-600">{errors.last_name?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.last_name?.message}
+                    </small>
                   )}
                   {errors.last_name?.type === "minLength" && (
-                    <small className="ml-1.5 text-red-600">{errors.last_name?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.last_name?.message}
+                    </small>
                   )}
                 </div>
 
@@ -113,7 +138,8 @@ export const Register = () => {
                         message: "Correo es requerido",
                       },
                       pattern: {
-                        value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        value:
+                          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                         message: "Correo no válido",
                       },
                     })}
@@ -121,10 +147,14 @@ export const Register = () => {
                     placeholder="Correo"
                   />
                   {errors.email?.type === "required" && (
-                    <small className="ml-1.5 text-red-600">{errors.email?.type === "required"}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.email?.type === "required"}
+                    </small>
                   )}
                   {errors.email?.type === "pattern" && (
-                    <small className="ml-1.5 text-red-600">{errors.email?.type === "pattern"}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.email?.type === "pattern"}
+                    </small>
                   )}
                 </div>
 
@@ -148,20 +178,27 @@ export const Register = () => {
                       },
                       pattern: {
                         value: /^[a-zA-Z0-9]{6,12}$/,
-                        message: "Username no válido, solo letras y números entre 6 y 12 caracteres",
+                        message:
+                          "Username no válido, solo letras y números entre 6 y 12 caracteres",
                       },
                     })}
                     className="relative block w-full border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                     placeholder="Nombre de Usuario"
                   />
                   {errors.username?.type === "required" && (
-                    <small className="ml-1.5 text-red-600">{errors.last_name?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.last_name?.message}
+                    </small>
                   )}
                   {errors.usernaname?.type === "minLength" && (
-                    <small className="ml-1.5 text-red-600">{errors.last_name?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.last_name?.message}
+                    </small>
                   )}
                   {errors.username?.type === "pattern" && (
-                    <small className="ml-1.5 text-red-600">{errors.username?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.username?.message}
+                    </small>
                   )}
                 </div>
 
@@ -188,10 +225,14 @@ export const Register = () => {
                     placeholder="Contraseña"
                   />
                   {errors.password?.type === "required" && (
-                    <small className="ml-1.5 text-red-600">{errors.password?.type === "required"}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.password?.type === "required"}
+                    </small>
                   )}
                   {errors.password?.type === "minLength" && (
-                    <small className="ml-1.5 text-red-600">{errors.password?.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.password?.message}
+                    </small>
                   )}
                 </div>
                 <div>
@@ -217,40 +258,56 @@ export const Register = () => {
                     placeholder="Repetir Contraseña"
                   />
                   {errors.repeat_password?.type === "required" && (
-                    <small className="ml-1.5 text-red-600">{errors.repeat_password.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.repeat_password.message}
+                    </small>
                   )}
                   {errors.repeat_password?.type === "validate" && (
-                    <small className="ml-1.5 text-red-600">{errors.repeat_password.message}</small>
+                    <small className="ml-1.5 text-red-600">
+                      {errors.repeat_password.message}
+                    </small>
                   )}
                 </div>
               </div>
 
               <div>
-                <button
+                <Link
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700
                   disabled:opacity-50 disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:focus-visible:outline-offset-0 disabled:text-gray-500 disabled:focus-visible:outline-0 
-                  ">
+                  "
+                >
                   Crear cuenta
-                </button>
+                </Link>
               </div>
             </form>
 
             <div>
               <div className="relative mt-10">
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div
+                  className="absolute inset-0 flex items-center"
+                  aria-hidden="true"
+                >
                   <div className="w-full border-t border-gray-200" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-white px-6 text-gray-900">O regístrate con</span>
+                  <span className="bg-white px-6 text-gray-900">
+                    O regístrate con
+                  </span>
                 </div>
               </div>
 
-              {/* <div className="mt-6">
+              {/*Register with google*/}
+              <div className="mt-6">
                 <Link
-                  to="#"
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent">
-                  <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
+                  onClick={registerGoogle}
+                  className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
+                >
+                  <svg
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z"
                       fill="#EA4335"
@@ -268,9 +325,11 @@ export const Register = () => {
                       fill="#34A853"
                     />
                   </svg>
-                  <span className="text-sm font-semibold leading-6">Google</span>
+                  <span className="text-sm font-semibold leading-6">
+                    Google
+                  </span>
                 </Link>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
