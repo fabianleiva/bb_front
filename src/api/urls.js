@@ -5,4 +5,4 @@ export const LOGIN_URL = "/login";
 export const LOGIN_GOOGLE_URL =
   "https://bulkbuddies.onrender.com/api/v1/auth/google";
 export const GET_POSTS_URL =
-  "https://bulkbuddies.onrender.com/api/v1/product";
+  "https://bulkbuddies.onrender.com/api/v1/post";
