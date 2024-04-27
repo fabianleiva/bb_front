@@ -1,64 +1,34 @@
-import { PhotoIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
 export const CreatePost = () => {
   return (
     <form>
       <div className="space-y-12">
+        {/*PRODUCT DETAILS SECTION*/}
         <div className="border-b border-gray-900/10 pb-12">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">
+            Detalles del producto
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600">
+            Agrega información del producto que quieres traer.
+          </p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            {/*Reference image*/}
-            <div className="col-span-full">
-              <label
-                htmlFor="cover-photo"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Imagen de referencia
-              </label>
-              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                <div className="text-center">
-                  <PhotoIcon
-                    className="mx-auto h-12 w-12 text-gray-300"
-                    aria-hidden="true"
-                  />
-                  <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-buddies-blue-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-buddies-blue-500 focus-within:ring-offset-2 hover:text-buddies-blue-500"
-                    >
-                      <span>Upload a file</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                      />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs leading-5 text-gray-600">
-                    PNG, JPG, GIF up to 10MB
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/*Product name*/}
+            {/*Post title*/}
             <div className="sm:col-span-4">
               <label
-                htmlFor="username"
+                htmlFor="post_title"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Producto
+                Título de la publicación
               </label>
               <div className="mt-2">
                 <div className="bg-white flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-buddies-blue-700 sm:max-w-md">
                   <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
                   <input
                     type="text"
-                    name="product"
-                    id="product"
-                    autoComplete="product"
+                    name="post_title"
+                    id="post_title"
+                    autoComplete="post_title"
                     className=" block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Dale un nombre a tu publicación"
                   />
@@ -69,20 +39,43 @@ export const CreatePost = () => {
             {/*Product url*/}
             <div className="sm:col-span-4">
               <label
-                htmlFor="url"
+                htmlFor="product_url"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Url
+                Link al producto que quieres comprar (Url)
               </label>
               <div className="mt-2">
-                <div className="bg-white flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-buddies-blue-700">
+                <div className="bg-white flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-buddies-blue-700 sm:max-w-md">
                   <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
                   <input
-                    type="url"
-                    name="url"
-                    id="url"
-                    autoComplete="url"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    type="text"
+                    name="product_url"
+                    id="product_url"
+                    autoComplete="product_url"
+                    className=" block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="http://..."
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/*Reference image*/}
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="img_url"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Imagen de referencia (Url)
+              </label>
+              <div className="mt-2">
+                <div className="bg-white flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-buddies-blue-700 sm:max-w-md">
+                  <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm"></span>
+                  <input
+                    type="text"
+                    name="img_url"
+                    id="img_url"
+                    autoComplete="img_url"
+                    className=" block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="http://..."
                   />
                 </div>
@@ -113,7 +106,7 @@ export const CreatePost = () => {
           </div>
         </div>
 
-        {/*Product details*/}
+        {/*BUYING DETAILS*/}
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             Detalles de la compra
@@ -122,28 +115,30 @@ export const CreatePost = () => {
             Añade información útil para tus buddies.
           </p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            
             {/*Min units*/}
             <div className="sm:col-span-3">
               <label
-                htmlFor="first-name"
+                htmlFor="required_stock"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Cantidad mínima a comprar
+                Cantidad mínima a comprar (Unidades)
               </label>
               <div className="mt-2">
                 <input
                   type="text"
-                  name="first-name"
-                  id="first-name"
-                  autoComplete="given-name"
+                  name="required_stock"
+                  id="required_stock"
+                  autoComplete="required_stock"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
+
             {/*Unit price*/}
             <div className="sm:col-span-3">
               <label
-                htmlFor="last-name"
+                htmlFor="unit_price"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Precio por unidad
@@ -151,13 +146,14 @@ export const CreatePost = () => {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="last-name"
-                  id="last-name"
-                  autoComplete="family-name"
+                  name="unit_price"
+                  id="unit_price"
+                  autoComplete="unit_price"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
+            
             {/*Deadline*/}
             <div className="sm:col-span-4">
               <label
@@ -263,9 +259,7 @@ export const CreatePost = () => {
       </div>
       {/*Publish or cancel buttons*/}
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <Link
-          className="text-sm font-semibold leading-6 text-gray-900"
-        >
+        <Link className="text-sm font-semibold leading-6 text-gray-900">
           Cancelar
         </Link>
         <Link
