@@ -12,7 +12,8 @@ export const Explore = () => {
     const getPosts = async () => {
       try {
         const response = await axios.get(GET_POSTS_URL);
-        setProducts(response.data.products);
+        setProducts(response.data);
+        console.log(response.data)
       } catch (error) {
         console.log(error);
       }
@@ -22,7 +23,7 @@ export const Explore = () => {
   }, [setProducts]);
 
   return (
-    <div className="py-24 sm:py-32">
+    <div className="py-24 sm:py-32 border">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -42,7 +43,7 @@ export const Explore = () => {
               <div className="relative w-full">
                 <img
                   src={post.img_url}
-                  alt={post.name}
+                  alt={post.title}
                   className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
                 />
                 <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
@@ -63,7 +64,7 @@ export const Explore = () => {
                   <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                     <Link to="/posts/post">
                       <span className="absolute inset-0" />
-                      {post.name}
+                      {post.title}
                     </Link>
                   </h3>
                   <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
