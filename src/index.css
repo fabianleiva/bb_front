@@ -20,3 +20,11 @@ body{
 #root{
   min-height: 100vh;
 }
+
+input[type='text'].MuiInputBase-input{
+  padding: 6.5px;
+}
+
+input[type='text'].MuiInputBase-input:focus {
+  --tw-ring-shadow: 0;
+}
