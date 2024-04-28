@@ -77,7 +77,7 @@ export const Info = () => {
                     <circle cx={2} cy={2} r={2} fill="currentColor" />
                   </svg>
                   {item.step}
-                  <div
+                  <span
                     className="absolute -ml-2 h-px w-screen -translate-x-full bg-gray-900/10 sm:-ml-4 lg:static lg:-mr-6 lg:ml-8 lg:w-auto lg:flex-auto lg:translate-x-0"
                     aria-hidden="true"
                   />
