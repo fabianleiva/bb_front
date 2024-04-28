@@ -1,8 +1,45 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { storeBulkBuddies } from "../state/state";
 
 export const CreatePost = () => {
+
+
+
+
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+
+  const setAlert = storeBulkBuddies((state) => state.setAlert);
+  const setIsAuth = storeBulkBuddies((state) => state.setIsAuth);
+
+  const onSubmit = handleSubmit((data) => {
+    createNewPost(data);
+  });
+
+  const createNewPost = async (data) => {
+    try {
+      const request = await axios.post(CREATE_NEW_POST, data);
+
+      setAlert({
+        type: "success",
+        message: `Bienvenido ${first_name} ${last_name}`,
+      });
+
+      setIsAuth(true);
+
+      localStorage.setItem("token", token);
+    } catch ({ response }) {
+      setAlert({ type: "error", message: response.data.message });
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <div className="space-y-12 sm:space-y-16">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -26,7 +63,6 @@ export const CreatePost = () => {
                   type="text"
                   name="post_title"
                   id="post_title"
-                  autoComplete="post_title"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                 />
               </div>
@@ -45,7 +81,6 @@ export const CreatePost = () => {
                   type="text"
                   name="post_url"
                   id="post_url"
-                  autoComplete="post_url"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                   placeholder="http://..."
                 />
@@ -89,7 +124,6 @@ export const CreatePost = () => {
                   name="img_url"
                   id="img_url"
                   buddies-blue-700
-                  autoComplete="img_url"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                   placeholder="http://..."
                 />
@@ -108,7 +142,6 @@ export const CreatePost = () => {
                 <select
                   id="category"
                   name="category"
-                  autoComplete="category"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
                   <option selected>Seleccione una opción</option>
@@ -142,7 +175,6 @@ export const CreatePost = () => {
                   type="number"
                   name="min_units"
                   id="min_units"
-                  autoComplete="min_units"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                 />
               </div>
@@ -161,7 +193,6 @@ export const CreatePost = () => {
                   type="number"
                   name="initial_contribution"
                   id="initial_contribution"
-                  autoComplete="initial_contribution"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                 />
               </div>
@@ -180,7 +211,6 @@ export const CreatePost = () => {
                   type="number"
                   name="min_contribution"
                   id="min_contribution"
-                  autoComplete="min_contribution"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                 />
               </div>
@@ -199,9 +229,91 @@ export const CreatePost = () => {
                   type="number"
                   name="unit_price"
                   id="unit_price"
-                  autoComplete="unit_pricen"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                 />
+              </div>
+            </div>
+
+            {/*EXPITRATION DATE*/}
+            <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+              <label
+                htmlFor="exp_date"
+                className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
+              >
+                Fecha límite del bulking
+              </label>
+              <div className="sm:grid sm:grid-cols-3 sm:items-start">
+                <div className="mt-2">
+                  <select
+                    id="day"
+                    name="day"
+                    className="block w-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option selected>Día</option>
+                    <option>01</option>
+                    <option>02</option>
+                    <option>03</option>
+                    <option>04</option>
+                    <option>05</option>
+                    <option>06</option>
+                    <option>07</option>
+                    <option>08</option>
+                    <option>09</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                    <option>13</option>
+                    <option>14</option>
+                    <option>15</option>
+                    <option>16</option>
+                    <option>17</option>
+                    <option>18</option>
+                    <option>19</option>
+                    <option>20</option>
+                    <option>21</option>
+                    <option>22</option>
+                    <option>23</option>
+                    <option>24</option>
+                    <option>25</option>
+                    <option>26</option>
+                    <option>27</option>
+                    <option>28</option>
+                    <option>29</option>
+                    <option>30</option>
+                  </select>
+                </div>
+                <div className="mt-2">
+                  <select
+                    id="month"
+                    name="month"
+                    className="block w-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option selected>Mes</option>
+                    <option>01</option>
+                    <option>02</option>
+                    <option>03</option>
+                    <option>04</option>
+                    <option>05</option>
+                    <option>06</option>
+                    <option>07</option>
+                    <option>08</option>
+                    <option>09</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                  </select>
+                </div>
+                <div className="mt-2">
+                  <select
+                    id="year"
+                    name="year"
+                    className="block w-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option selected>Año</option>
+                    <option>2024</option>
+                    <option>2025</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -219,7 +331,7 @@ export const CreatePost = () => {
           type="submit"
           className="inline-flex justify-center rounded-md bg-buddies-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
         >
-          Save
+          Publicar
         </Link>
       </div>
     </form>

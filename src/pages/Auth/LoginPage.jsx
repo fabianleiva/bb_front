@@ -20,6 +20,7 @@ export const LoginPage = () => {
 
   const login = async (data) => {
     try {
+      console.log(data)
       const request = await axios.post(LOGIN_URL, data);
       console.log(request.data);
       const { first_name, last_name, token } = request.data;
@@ -147,12 +148,13 @@ export const LoginPage = () => {
 
               {/*Login*/}
               <div>
-                <Link
+                <button
                   type="submit"
+                  onClick={login}
                   className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
                 >
                   Ingresar
-                </Link>
+                </button>
               </div>
             </form>
 
