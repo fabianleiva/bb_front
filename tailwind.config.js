@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -29,10 +30,9 @@ export default {
     },
   },
   plugins: [
-    // eslint-disable-next-line no-undef
     require("@tailwindcss/forms"),
-    "flowbite/plugin",
-    "@tailwindcss/aspect-ratio",
-    "@tailwindcss/typography",
+    require("flowbite/plugin"),
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/typography"),
   ],
 };
