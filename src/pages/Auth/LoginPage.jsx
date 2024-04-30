@@ -3,40 +3,48 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { storeBulkBuddies } from "../../state/state";
 import { LOGIN_URL, LOGIN_GOOGLE_URL } from "../../api/urls";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const setAlert = storeBulkBuddies((state) => state.setAlert);
-  const setIsAuth = storeBulkBuddies((state) => state.setIsAuth);
+  const { alert, setAlert } = storeBulkBuddies();
+  const { isAuth, setIsAuth } = storeBulkBuddies();
 
   const onSubmit = handleSubmit((data) => {
-    login(data);
+    setTimeout(navigateTo, 1000);
+    setTimeout(login(data), 2000);
   });
 
   const login = async (data) => {
     try {
-      console.log(data)
+      console.log(data);
       const request = await axios.post(LOGIN_URL, data);
-      console.log(request.data);
       const { first_name, last_name, token } = request.data;
+
+      setIsAuth(true);
+      localStorage.setItem("token", token);
 
       setAlert({
         type: "success",
         message: `Bienvenido ${first_name} ${last_name}`,
       });
-
-      setIsAuth(true);
-
-      localStorage.setItem("token", token);
     } catch ({ response }) {
       setAlert({ type: "error", message: response.data.message });
     }
   };
+
+  const navigateTo = () => {
+    navigate("/");
+  };
+
+  console.log(alert);
+  console.log(isAuth);
 
   const loginGoogle = async () => {
     window.open(LOGIN_GOOGLE_URL, "_self");

@@ -1,17 +1,20 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { storeBulkBuddies } from "./state/state";
+import { useEffect } from "react";
 
 export const Root = () => {
-  const alert = storeBulkBuddies((state) => state.alert);
+  const {alert} = storeBulkBuddies();
   const { pathname } = useLocation();
 
-  if (alert.type === "error") {
-    toast.error(alert.message);
-  }
-  if (alert.type === "success") {
-    toast.success(alert.message);
-  }
+  useEffect(() => {
+    if (alert.type === "error") {
+      toast.error(alert.message);
+    }
+    if (alert.type === "success") {
+      toast.success(alert.message);
+    }
+  }, [alert]);
 
   if (pathname === "/") {
     return <Navigate to="/home" />;
