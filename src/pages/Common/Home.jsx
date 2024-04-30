@@ -112,7 +112,7 @@ export const HomePage = () => {
                 {/* Text */}
                 <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="flex text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    BulkBuddies <h1 className="text-buddies-blue-700">.</h1>
+                    BulkBuddies <span className="text-buddies-blue-700">.</span>
                   </h1>
                   <p className="mt-6 text-xl leading-8 text-gray-900 sm:max-w-md lg:max-w-none">
                     <b>
