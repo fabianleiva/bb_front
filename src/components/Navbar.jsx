@@ -1,7 +1,8 @@
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import { storeBulkBuddies } from "../state/state";
 import { Dialog } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const navigation = [
   { name: "Explorar", href: "/posts/explore" },
@@ -10,9 +11,31 @@ const navigation = [
 ];
 
 const Navbar = () => {
-  const { mobileMenuOpen, setMobileMenuOpen } = storeBulkBuddies();
+  const mobileMenuOpen = storeBulkBuddies(state => state.mobileMenuOpen);
+  const setMobileMenuOpen = storeBulkBuddies(state => state.setMobileMenuOpen);
+  const setAlert = storeBulkBuddies(state => state.setAlert);
   const isAuth = storeBulkBuddies((state) => state.isAuth);
-  console.log(isAuth);
+  const logout = storeBulkBuddies((state) => state.logout);
+  const navigate = useNavigate()
+
+  const logoutUser = async () => {
+    try {
+      const fetch = await axios.get("/logout")
+      logout()
+      setAlert({
+        type: "info",
+        message: `${fetch.data.message}`
+      })
+      navigate("/")
+    } catch (error) {
+      console.log(error)
+      setAlert({
+        type: "error",
+        message: `Error al cerrar sesion`
+      })
+    }
+  }
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50">
@@ -79,28 +102,39 @@ const Navbar = () => {
           )}
           {isAuth && (
             <div className="justify-end mr-4 hidden lg:flex align-middle">
-              <Link
-                to="/user/profile"
-                className="flex justify-end align-middle w-full px-6 py-1 font-semibold text-buddies-blue-700  hover:text-buddies-blue-500"
-              >
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
-                </div>
-                <div className="text- font-semibold leading-6"> Mi Perfil</div>
-              </Link>
+
+              <div className="flex gap-4">
+                <Link
+                  to="/user/profile"
+                  className="flex align-middle px-6 py-1 font-semibold text-buddies-blue-700  hover:text-buddies-blue-500"
+                >
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="text- font-semibold leading-6"> Mi Perfil</div>
+
+                </Link>
+
+                <button
+                  onClick={logoutUser}
+                  className="flex align-middle px-6 py-1 font-semibold text-buddies-blue-700 hover:text-buddies-blue-500">
+                  Cerrar Sesion
+                </button>
+
+              </div>
             </div>
           )}
 

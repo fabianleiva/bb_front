@@ -1,8 +1,10 @@
+import axios from "axios";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { REGISTER_URL } from "../../api/urls";
 import { REGISTER_GOOGLE_URL } from "../../api/urls";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { AlertUi } from "../../components/Alerts";
 
 export const Register = () => {
   const {
@@ -12,10 +14,16 @@ export const Register = () => {
     formState: { errors },
   } = useForm();
 
-  console.log(errors);
+  const [alertStatus, setAlertStatus] = useState({
+    status: undefined,
+    message: "",
+    show: false
+  });
+
+  const navigate = useNavigate();
+
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     const { first_name, last_name, email, password, username } = data;
     registerUser({ first_name, last_name, email, username, password });
   });
@@ -23,9 +31,24 @@ export const Register = () => {
   const registerUser = async (data) => {
     try {
       const response = await axios.post(REGISTER_URL, data);
-      console.log(response);
+      setAlertStatus({
+        status: "success",
+        message: `${response.data.message} Redirigiendo a login...`,
+        show: true
+      })
+      localStorage.setItem("email", data.email);
+
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 2000);
+
     } catch (error) {
-      console.error(error);
+      console.log(error)
+      setAlertStatus({
+        status: "error",
+        message: error.response.data.message || "Error al crear usuario",
+        show: true
+      })
     }
   };
 
@@ -40,7 +63,7 @@ export const Register = () => {
           <img
             className="mx-auto h-10 w-auto"
             src="/bulkbuddies_logo.png"
-            alt="Your Company"
+            alt="BulkBuddies"
           />
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Regístrate
@@ -49,11 +72,13 @@ export const Register = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
+
+            {alertStatus.show &&
+              <AlertUi title={alertStatus.message} variant={alertStatus.status} />
+            }
             <form
               onSubmit={onSubmit}
               className="space-y-6"
-              action="#"
-              method="POST"
             >
               <div className="relative -space-y-px rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300" />
@@ -173,8 +198,8 @@ export const Register = () => {
                         message: "Username es requerido",
                       },
                       minLength: {
-                        value: 3,
-                        message: "Mínimo 3 caracteres",
+                        value: 6,
+                        message: "Mínimo 6 caracteres",
                       },
                       pattern: {
                         value: /^[a-zA-Z0-9]{6,12}$/,
@@ -216,8 +241,8 @@ export const Register = () => {
                         message: "Contraseña es requerida",
                       },
                       minLength: {
-                        value: 6,
-                        message: "Mínimo 6 caracteres",
+                        value: 8,
+                        message: "Mínimo 8 caracteres",
                       },
                     })}
                     autoComplete="off"
@@ -271,14 +296,14 @@ export const Register = () => {
               </div>
 
               <div>
-                <Link
+                <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700
                   disabled:opacity-50 disabled:bg-gray-300 disabled:hover:bg-gray-300 disabled:focus-visible:outline-offset-0 disabled:text-gray-500 disabled:focus-visible:outline-0 
                   "
                 >
                   Crear cuenta
-                </Link>
+                </button>
               </div>
             </form>
 

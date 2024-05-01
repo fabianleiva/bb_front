@@ -1,50 +1,89 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { storeBulkBuddies } from "../../state/state";
 import { LOGIN_URL, LOGIN_GOOGLE_URL } from "../../api/urls";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { AlertUi } from "../../components/Alerts";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const setAlert = storeBulkBuddies(state => state.setAlert);
+  const setIsAuth = storeBulkBuddies(state => state.setIsAuth);
+  const setUser = storeBulkBuddies(state => state.setUser);
+
+  const [alertStatus, setAlertStatus] = useState({
+    status: undefined,
+    message: "",
+    show: false
+  });
+
+  const [loading, setLoading] = useState(false);
+
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
-  const { alert, setAlert } = storeBulkBuddies();
-  const { isAuth, setIsAuth } = storeBulkBuddies();
-
   const onSubmit = handleSubmit((data) => {
-    setTimeout(navigateTo, 1000);
-    setTimeout(login(data), 2000);
+    data["remember-me"]
+      ? localStorage.setItem("email", data.email)
+      : localStorage.removeItem("email")
+    login(data)
   });
 
-  const login = async (data) => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuth(true);
+      navigate("/user/profile");
+    }
+
+    const email = localStorage.getItem("email");
+    if (email) {
+      setValue("email", email);
+      setValue("remember-me", true)
+    }
+  }, []);
+
+  const login = async ({ email, password }) => {
     try {
-      console.log(data);
-      const request = await axios.post(LOGIN_URL, data);
+      setLoading(true)
+      const request = await axios.post(LOGIN_URL, { email, password });
       const { first_name, last_name, token } = request.data;
 
-      setIsAuth(true);
       localStorage.setItem("token", token);
+      setIsAuth(true);
+      setUser(request.data)
 
       setAlert({
         type: "success",
         message: `Bienvenido ${first_name} ${last_name}`,
       });
-    } catch ({ response }) {
-      setAlert({ type: "error", message: response.data.message });
+
+      setTimeout(() => {
+        navigate("/user/profile");
+      }, 1_500);
+
+    } catch (error) {
+      const response = error.response;
+
+      if (error) {
+        setAlertStatus({
+          message: response?.data?.message || "Error en el servidor",
+          status: 'error',
+          show: true
+        });
+      }
+    }
+    finally {
+      setLoading(false)
     }
   };
-
-  const navigateTo = () => {
-    navigate("/");
-  };
-
-  console.log(alert);
-  console.log(isAuth);
 
   const loginGoogle = async () => {
     window.open(LOGIN_GOOGLE_URL, "_self");
@@ -66,6 +105,12 @@ export const LoginPage = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
+
+
+            {alertStatus.show &&
+              <AlertUi title={alertStatus.message} variant={alertStatus.status} />
+            }
+
             <form onSubmit={onSubmit} className="space-y-6">
               <div className="relative -space-y-px rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300" />
@@ -134,6 +179,7 @@ export const LoginPage = () => {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
+                    {...register("remember-me")}
                     className="h-4 w-4 rounded border-gray-300 text-buddies-blue-700 focus:ring-buddies-blue-700"
                   />
                   <label
@@ -157,11 +203,22 @@ export const LoginPage = () => {
               {/*Login*/}
               <div>
                 <button
+                  disabled={loading}
                   type="submit"
-                  onClick={login}
-                  className="flex w-full justify-center rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700"
+                  className="flex w-full justify-center items-center gap-2 rounded-md bg-buddies-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700
+                  disabled:bg-gray-300 disabled:text-gray-500 disabled:hover:text-gray-500
+                  disabled:hover:bg-gray-300 disabled:hover:text-gray-500
+                  "
                 >
-                  Ingresar
+
+                  {!loading
+                    ? "Ingresar"
+                    :
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  }
                 </button>
               </div>
             </form>

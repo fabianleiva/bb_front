@@ -1,6 +1,7 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://bulkbuddies.onrender.com/api/v1/";
+axios.defaults.baseURL = "http://localhost:3000/api/v1/";
+// axios.defaults.baseURL = "https://bulkbuddies.onrender.com/api/v1/";
 
 export const axiosInterceptor = () => {
 
@@ -24,7 +25,6 @@ export const axiosInterceptor = () => {
 
   axios.interceptors.response.use(
     (response) => {
-      console.log(response);
       return response;
     },
     (error) => {

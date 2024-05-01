@@ -12,6 +12,7 @@ import { Publish } from "../pages/Posts/Publish";
 import { MyProfile } from "../pages/Users/MyProfile";
 import { Dashboard } from "../pages/Users/Dashboard";
 import { NotFound } from "../pages/Common/NotFound";
+import { UserLayout } from "../layouts/UserLayout";
 
 export const router = createBrowserRouter([
   {
@@ -39,10 +40,6 @@ export const router = createBrowserRouter([
             element: <Explore />,
           },
           {
-            path: "publish",
-            element: <Publish />,
-          },
-          {
             path: "post",
             element: <Post />,
           },
@@ -61,19 +58,15 @@ export const router = createBrowserRouter([
             element: <Register />,
           },
           {
-            path: "register/success",
+            path: "auth/success",
             element: <RegisterComplete />,
           },
         ],
       },
       {
         path: "user",
-        element: <MainLayout />,
+        element: <UserLayout />,
         children: [
-          {
-            path: "dashboard",
-            element: <Dashboard />,
-          },
           {
             path: "profile",
             element: <MyProfile />,
@@ -81,6 +74,10 @@ export const router = createBrowserRouter([
           {
             path: "bulkings",
             element: <MyProfile />,
+          },
+          {
+            path: "publish",
+            element: <Publish />,
           },
         ],
       },

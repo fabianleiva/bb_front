@@ -4,7 +4,13 @@ import { storeBulkBuddies } from "./state/state";
 import { useEffect } from "react";
 
 export const Root = () => {
-  const {alert} = storeBulkBuddies();
+  const alert = storeBulkBuddies(state => state.alert);
+  const setUser = storeBulkBuddies(state => state.setUser);
+
+  if (localStorage.getItem("user")) {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }
+
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -14,14 +20,17 @@ export const Root = () => {
     if (alert.type === "success") {
       toast.success(alert.message);
     }
+    if (alert.type === "warning") {
+      toast.success(alert.message);
+    }
+    if (alert.type === "info") {
+      toast.success(alert.message);
+    }
   }, [alert]);
 
   if (pathname === "/") {
     return <Navigate to="/home" />;
   }
-
-  //FUNCION ISAUTH CUANDO RECARGA
-
   return (
     <main className="min-h-[100vh]">
       <Toaster richColors />
