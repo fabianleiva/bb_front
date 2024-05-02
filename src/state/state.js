@@ -24,4 +24,6 @@ export const storeBulkBuddies = create((set) => ({
   setAlert: (value) => set(() => ({ alert: value })),
   products: [],
   setProducts: (value) => set(() => ({ products: value })),
+  categories: [],
+  setCategories: (value) => set(() => ({ categories: value })),
 }));
