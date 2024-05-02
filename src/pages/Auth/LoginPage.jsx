@@ -54,11 +54,11 @@ export const LoginPage = () => {
     try {
       setLoading(true)
       const request = await axios.post(LOGIN_URL, { email, password });
-      const { first_name, last_name, token } = request.data;
+      const { first_name, last_name, token } = request.data.data;
 
       localStorage.setItem("token", token);
       setIsAuth(true);
-      setUser(request.data)
+      setUser(request.data.data)
 
       setAlert({
         type: "success",
