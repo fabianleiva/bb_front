@@ -26,8 +26,8 @@ export const Explore = () => {
   }, []);
 
   return (
-    <div className="px-12 py-24 sm:py-32 border min-h-[100vh]">
-      <div className="mx-auto max-w-8xl px-6 lg:px-8">
+    <div className="px-2 py-24 sm:py-32 border min-h-[100vh]">
+      <div className="mx-auto max-w-7xl xl:max-w-full px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Publicaciones
@@ -38,12 +38,12 @@ export const Explore = () => {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+        <div className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2 xl:grid-cols-4 place-content-center">
           {/*Render Cards*/}
           {products.map((post) => (
             <article
               key={post.id}
-              className="flex flex-col items-start bg-white rounded-3xl p-5 shadow-md justify-between"
+              className="flex flex-col items-start bg-white rounded-3xl p-5 shadow-md justify-between max-w-2xl"
             >
               <div>
                 {/*Category*/}
