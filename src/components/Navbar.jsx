@@ -11,30 +11,32 @@ const navigation = [
 ];
 
 const Navbar = () => {
-  const mobileMenuOpen = storeBulkBuddies(state => state.mobileMenuOpen);
-  const setMobileMenuOpen = storeBulkBuddies(state => state.setMobileMenuOpen);
-  const setAlert = storeBulkBuddies(state => state.setAlert);
+  const mobileMenuOpen = storeBulkBuddies((state) => state.mobileMenuOpen);
+  const setMobileMenuOpen = storeBulkBuddies(
+    (state) => state.setMobileMenuOpen
+  );
+  const setAlert = storeBulkBuddies((state) => state.setAlert);
   const isAuth = storeBulkBuddies((state) => state.isAuth);
   const logout = storeBulkBuddies((state) => state.logout);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const logoutUser = async () => {
     try {
-      const fetch = await axios.get("/logout")
-      logout()
+      const fetch = await axios.get("/logout");
+      logout();
       setAlert({
         type: "info",
-        message: `${fetch.data.message}`
-      })
-      navigate("/")
+        message: `${fetch.data.message}`,
+      });
+      navigate("/");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setAlert({
         type: "error",
-        message: `Error al cerrar sesion`
-      })
+        message: `Error al cerrar sesion`,
+      });
     }
-  }
+  };
 
   return (
     <>
@@ -63,15 +65,17 @@ const Navbar = () => {
           {/* Desktop navigation*/}
           <div className="relative isolate hidden lg:flex z-50">
             <div className="bottom-8 m-auto inset-x-0 justify-between max-w-80 px-6 py-1 rounded-full flex lg:gap-x-12 ">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-md font-semibold leading-6 text-gray-900 hover:text-buddies-blue-700"
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) =>
+                item.name === "Publicar" && !isAuth ? null : (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="text-md font-semibold leading-6 text-gray-900 hover:text-buddies-blue-700"
+                  >
+                    {item.name}
+                  </Link>
+                )
+              )}
             </div>
           </div>
 
@@ -102,7 +106,6 @@ const Navbar = () => {
           )}
           {isAuth && (
             <div className="justify-end mr-4 hidden lg:flex align-middle">
-
               <div className="flex gap-4">
                 <Link
                   to="/user/profile"
@@ -124,16 +127,18 @@ const Navbar = () => {
                       />
                     </svg>
                   </div>
-                  <div className="text- font-semibold leading-6"> Mi Perfil</div>
-
+                  <div className="text- font-semibold leading-6">
+                    {" "}
+                    Mi Perfil
+                  </div>
                 </Link>
 
                 <button
                   onClick={logoutUser}
-                  className="flex align-middle px-6 py-1 font-semibold text-buddies-blue-700 hover:text-buddies-blue-500">
+                  className="flex align-middle px-6 py-1 font-semibold text-buddies-blue-700 hover:text-buddies-blue-500"
+                >
                   Cerrar Sesion
                 </button>
-
               </div>
             </div>
           )}
@@ -179,16 +184,18 @@ const Navbar = () => {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                  {navigation.map((item) =>
+                    item.name === "Publicar" && !isAuth ? null : (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  )}
                 </div>
                 <div className="py-6">
                   <Link
