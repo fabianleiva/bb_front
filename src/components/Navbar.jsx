@@ -3,10 +3,11 @@ import { storeBulkBuddies } from "../state/state";
 import { Dialog } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LOGOUT_URL } from "../api/urls";
 
 const navigation = [
   { name: "Explorar", href: "/posts/explore" },
-  { name: "Publicar", href: "/posts/publish" },
+  { name: "Publicar", href: "/user/publish" },
   { name: "+Info", href: "/info" },
 ];
 
@@ -22,13 +23,13 @@ const Navbar = () => {
 
   const logoutUser = async () => {
     try {
-      const fetch = await axios.get("/logout");
+      const fetch = await axios.get(LOGOUT_URL);
       logout();
       setAlert({
         type: "info",
         message: `${fetch.data.message}`,
       });
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.log(error);
       setAlert({
