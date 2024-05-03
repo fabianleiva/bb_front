@@ -13,6 +13,7 @@ import { MyProfile } from "../pages/Users/MyProfile";
 import { Dashboard } from "../pages/Users/Dashboard";
 import { NotFound } from "../pages/Common/NotFound";
 import { UserLayout } from "../layouts/UserLayout";
+import { AuthSuccess } from "../pages/Auth/AuthSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -58,8 +59,8 @@ export const router = createBrowserRouter([
             element: <Register />,
           },
           {
-            path: "auth/success",
-            element: <RegisterComplete />,
+            path: "success",
+            element: <AuthSuccess />,
           },
         ],
       },

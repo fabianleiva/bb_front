@@ -80,9 +80,9 @@ export const UserCart = () => {
       category: "Mascotas",
       role: "Creador",
       status: "2000/10000",
-      exp_date: "13-09-2024"
+      exp_date: "13-09-2024",
+      email: "foo@foo.cl"
     },
-    // More people...
   ];
 
   return (

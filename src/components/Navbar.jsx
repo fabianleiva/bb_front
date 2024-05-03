@@ -1,9 +1,9 @@
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
-import { storeBulkBuddies } from "../state/state";
 import { Dialog } from "@headlessui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { LOGOUT_URL } from "../api/urls";
+import { storeBulkBuddies } from "../state/state";
 
 const navigation = [
   { name: "Explorar", href: "/posts/explore" },
@@ -146,13 +146,13 @@ const Navbar = () => {
 
           {/* Burger menu */}
           <div className="flex lg:hidden justify-end mr-4">
-            <Link
+            <button
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </Link>
+            </button>
           </div>
 
           {/* Mobile navigation */}
@@ -174,13 +174,13 @@ const Navbar = () => {
                   alt="logo"
                 />
               </Link>
-              <Link
+              <button
                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
                 <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </Link>
+              </button>
             </div>
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
@@ -230,8 +230,7 @@ const Navbar = () => {
                             />
                           </svg>
                         </div>
-                        <div className="text- font-semibold leading-6">
-                          {" "}
+                        <div className="font-semibold leading-6">
                           Mi Perfil
                         </div>
                       </Link>
