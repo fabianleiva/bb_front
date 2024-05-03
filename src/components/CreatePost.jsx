@@ -24,7 +24,6 @@ export const CreatePost = () => {
     };
     fetchData();
   }, []);
-  console.log(categories);
 
   const {
     handleSubmit,
@@ -43,6 +42,7 @@ export const CreatePost = () => {
 
   const onSubmit = handleSubmit((data) => {
     console.log("call");
+    console.log(data);
     console.log(date);
     // createNewPost(data);
   });
@@ -115,6 +115,12 @@ export const CreatePost = () => {
                     name="post_url"
                     id="post_url"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                    {...register("post_url", {
+                      required: {
+                        value: false,
+                        message: "Este campo es requerido",
+                      },
+                    })}
                     placeholder="http://..."
                   />
                 </div>
@@ -134,6 +140,12 @@ export const CreatePost = () => {
                     name="description"
                     rows={3}
                     className="block w-full max-w-2xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:text-sm sm:leading-6"
+                    {...register("description", {
+                      required: {
+                        value: true,
+                        message: "Este campo es requerido",
+                      },
+                    })}
                     defaultValue={""}
                   />
                   <p className="mt-3 text-sm leading-6 text-gray-600">
@@ -158,6 +170,12 @@ export const CreatePost = () => {
                     id="img_url"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
                     placeholder="http://..."
+                    {...register("img_url", {
+                      required: {
+                        value: false,
+                        message: "Este campo es requerido",
+                      },
+                    })}
                   />
                 </div>
               </div>
@@ -175,6 +193,7 @@ export const CreatePost = () => {
                     id="category"
                     name="category"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                    {...register("category", { required: true })}
                   >
                     <option>Seleccione una opción</option>
                     {categories.map((item) => (
@@ -211,6 +230,12 @@ export const CreatePost = () => {
                     name="min_units"
                     id="min_units"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                    {...register("min_units", {
+                      required: {
+                        value: true,
+                        message: "Este campo es requerido",
+                      },
+                    })}
                   />
                 </div>
               </div>
@@ -226,9 +251,15 @@ export const CreatePost = () => {
                 <div className="mt-2 sm:col-span-2 sm:mt-0">
                   <input
                     type="number"
-                    name="initial_contribution"
+                    name="user_contribution"
                     id="initial_contribution"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                    {...register("user_contribution", {
+                      required: {
+                        value: true,
+                        message: "Este campo es requerido",
+                      },
+                    })}
                   />
                 </div>
               </div>
@@ -247,6 +278,12 @@ export const CreatePost = () => {
                     name="min_contribution"
                     id="min_contribution"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                    {...register("min_contribution", {
+                      required: {
+                        value: true,
+                        message: "Este campo es requerido",
+                      },
+                    })}
                   />
                 </div>
               </div>
@@ -265,6 +302,12 @@ export const CreatePost = () => {
                     name="unit_price"
                     id="unit_price"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                    {...register("unit_price", {
+                      required: {
+                        value: true,
+                        message: "Este campo es requerido",
+                      },
+                    })}
                   />
                 </div>
               </div>
