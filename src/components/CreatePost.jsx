@@ -7,11 +7,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { GET_CATEGORIES_URL, CREATE_NEW_POST } from "../api/urls";
 import { storeDatePicker } from "../state/datepicker.store";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
 export const CreatePost = () => {
   const { categories, setCategories } = storeBulkBuddies();
   const { isoDate } = storeDatePicker();
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -24,22 +26,27 @@ export const CreatePost = () => {
         "https://www.trschools.com/templates/imgs/default_placeholder.png",
     },
   });
+  const { setIsPostCreated, isPostCreated } = storeBulkBuddies();
   //Get posts and categories data*/
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         const categoriesResponse = await axios.get(GET_CATEGORIES_URL);
         setCategories(categoriesResponse.data.categories);
+        console.log(isPostCreated);
+        if (isPostCreated) {
+          navigate("/posts/explore");
+        }
       } catch (error) {
         console.log(error);
       }
     };
+    setIsPostCreated(false);
     fetchData();
-  }, []);
+  }, [isPostCreated, setCategories]);
 
   const [date, setDate] = useState(null);
-
-  // console.log(watch());
 
   const setAlert = storeBulkBuddies((state) => state.setAlert);
   const setIsAuth = storeBulkBuddies((state) => state.setIsAuth);
@@ -50,7 +57,8 @@ export const CreatePost = () => {
       expiration_date: isoDate,
     };
     console.log(finalData);
-    await createNewPost(finalData);
+    setIsPostCreated(true);
+  /*   await createNewPost(finalData); */
   });
 
   const createNewPost = async (data) => {
@@ -60,10 +68,12 @@ export const CreatePost = () => {
         type: "success",
         message: `Post creado`,
       });
+
     } catch ({ response }) {
       setAlert({
         type: "error",
-        message: response.data.message["expiration_date"] || response.data.message,
+        message:
+          response.data.message["expiration_date"] || response.data.message,
       });
     }
   };

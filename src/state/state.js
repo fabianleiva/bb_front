@@ -9,21 +9,25 @@ export const storeBulkBuddies = create((set) => ({
   setIsAuth: (value) => set(() => ({ isAuth: value })),
   alert: {},
   user: {},
-  setUser: (newUser) => set(() => {
-    localStorage.setItem("user", JSON.stringify(newUser))
-    return { user: newUser }
-  }),
-  logout: () => set(() => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    return {
-      isAuth: false,
-      user: {}
-    }
-  }),
+  setUser: (newUser) =>
+    set(() => {
+      localStorage.setItem("user", JSON.stringify(newUser));
+      return { user: newUser };
+    }),
+  logout: () =>
+    set(() => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      return {
+        isAuth: false,
+        user: {},
+      };
+    }),
   setAlert: (value) => set(() => ({ alert: value })),
   products: [],
   setProducts: (value) => set(() => ({ products: value })),
   categories: [],
   setCategories: (value) => set(() => ({ categories: value })),
+  setIsPostCreated: (value) => set(() => ({ isPostCreated: value })),
+  isPostCreated: false,
 }));
