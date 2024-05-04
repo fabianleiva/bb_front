@@ -6,6 +6,7 @@ import { storeBulkBuddies } from "../../state/state";
 import dayjs from "dayjs";
 
 export const Explore = () => {
+
   const { products, setProducts } = storeBulkBuddies();
   const { categories, setCategories } = storeBulkBuddies();
 
@@ -61,7 +62,7 @@ export const Explore = () => {
                   return null;
                 })}
                 {/*Image url*/}
-                <Link to="/posts/post" className="w-full">
+                <Link to={`/posts/${post.id}`} className="w-full">
                   <div className="relative w-full group overflow-hidden rounded-2xl">
                     <img
                       src={post.img_url}
@@ -73,7 +74,7 @@ export const Explore = () => {
                   </div>
                 </Link>
                 {/*Post Info*/}
-                <Link to="/posts/post" className="w-full">
+                <Link to={`/posts/${post.id}`} className="w-full">
                   <div className="mt-5 flex-col items-center gap-x-4 text-xs justify-between"></div>
                   <div className="group relative ">
                     <h3 className="uppercase mt-3 mb-5 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600 group-hover:underline">
