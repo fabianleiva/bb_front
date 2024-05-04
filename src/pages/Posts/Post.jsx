@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { Link } from "react-router-dom";
@@ -62,89 +64,47 @@ function classNames(...classes) {
 }
 
 export const Post = () => {
+  const { post_id } = useParams();
+  const POST_DETAIL_URL = `https://bulkbuddies.onrender.com/api/v1/post/${post_id}`;
+  const [post, setPost] = useState([]);
+
+  //Get posts and categories data*/
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const postResponse = await axios.get(POST_DETAIL_URL);
+        setPost(postResponse.data);
+        console.log(postResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+
   return (
-    <div className="bg-white py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Post
+    <div className="py-24 sm:py-32">
+      <div className="mx-auto max-w-full px-6 lg:px-8">
+        {/*Post Title*/}
+        <div className="mx-auto max-w-2xl text-center mb-6">
+          <h2 className="capitalize text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            {post.title}
           </h2>
         </div>
 
         {/* Product section */}
-        <div className="bg-white">
-          <div className="pt-6">
-            <nav aria-label="Breadcrumb">
-              <ol
-                role="list"
-                className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-              >
-                {product.breadcrumbs.map((breadcrumb) => (
-                  <li key={breadcrumb.id}>
-                    <div className="flex items-center">
-                      <Link
-                        to={breadcrumb.href}
-                        className="mr-2 text-sm font-medium text-gray-900"
-                      >
-                        {breadcrumb.name}
-                      </Link>
-                      <svg
-                        width={16}
-                        height={20}
-                        viewBox="0 0 16 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                        className="h-5 w-4 text-gray-300"
-                      >
-                        <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                      </svg>
-                    </div>
-                  </li>
-                ))}
-                <li className="text-sm">
-                  <Link
-                    to={product.href}
-                    aria-current="page"
-                    className="font-medium text-gray-500 hover:text-gray-600"
-                  >
-                    {product.name}
-                  </Link>
-                </li>
-              </ol>
-            </nav>
-
+        <div className="bg-white shadow-lg rounded-3xl">
+          <div className="py-6 flex">
             {/* Image gallery */}
-            <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-              <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-                <img
-                  src={product.images[0].src}
-                  alt={product.images[0].alt}
-                  className="h-full w-full object-cover object-center"
-                />
-              </div>
-              <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                  <img
-                    src={product.images[1].src}
-                    alt={product.images[1].alt}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </div>
-                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                  <img
-                    src={product.images[2].src}
-                    alt={product.images[2].alt}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </div>
-              </div>
-              <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                <img
-                  src={product.images[3].src}
-                  alt={product.images[3].alt}
-                  className="h-full w-full object-cover object-center"
+            <div className="my-6 w-2xl sm:px-6 lg:w-6xl lg:px-8">
+              <div className=" hidden overflow-hidden rounded-lg lg:block">
+              <img
+                  src={post.img_url}
+                  alt={post.img_url}
+                  className="w-full h-auto object-center"
                 />
               </div>
             </div>
