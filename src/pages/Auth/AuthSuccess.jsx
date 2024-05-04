@@ -2,29 +2,42 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { PatnersLogo } from "../../components/PatnersLogo"
 import axios from "axios"
+import { storeBulkBuddies } from "../../state/state"
 export const AuthSuccess = () => {
+  // http://localhost:3000/api/v1/auth/google
+  const navigate = useNavigate()
+  const setUser = storeBulkBuddies((state) => state.setUser)
+  const setAlert = storeBulkBuddies((state) => state.setAlert)
+  const setIsAuth = storeBulkBuddies((state) => state.setIsAuth)
 
-  navigate = useNavigate()
+  let user = undefined
 
-  useEffect(() => { }, [])
+  useEffect(() => {
+    getDataUser()
+  }, [])
 
-  getDataUser = async () => {
+  const getDataUser = async () => {
 
     try {
-      const response = await axios.get("auth/success")
-      console.log(response)
+      const { data } = await axios.get("auth/success")
+      user = data.data
+      setUser(user)
+      setIsAuth(true, user.token)
+
+      setTimeout(() => {
+        navigate("/user/profile")
+      }, 1000)
 
     } catch (error) {
-      console.log(error)
+      setAlert({ message: "Error al obtener los datos del usuario", type: "error" })
+      navigate("/auth/login")
     }
-
   }
 
   return (
     <div className="bg-white px-6 py-24 sm:py-32 lg:px-8" >
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Bienvenido Ramon Martinez</h2>
-
+        <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Bienvenido {`${user?.first_name} ${user?.last_name} `}</h2>
         <PatnersLogo />
       </div>
     </div >

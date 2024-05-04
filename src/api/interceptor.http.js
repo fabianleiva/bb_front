@@ -1,21 +1,26 @@
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://localhost:3000/api/v1/";
-axios.defaults.baseURL = "https://bulkbuddies.onrender.com/api/v1/";
+axios.defaults.baseURL = "http://localhost:3000/api/v1/";
+// axios.defaults.baseURL = "https://bulkbuddies.onrender.com/api/v1/";
 
 export const axiosInterceptor = () => {
 
   const addToken = (config) => {
     const token = localStorage.getItem("token");
     if (token) {
-      config.withCredentials = true;
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   };
 
+  const addCredential = config => {
+    config.withCredentials = true;
+    return config;
+  }
+
   axios.interceptors.request.use(
     (config) => {
+      config = addCredential(config);
       return addToken(config);
     },
     (error) => {
@@ -34,7 +39,7 @@ export const axiosInterceptor = () => {
       }
       if (error.response.status === 401) {
         localStorage.removeItem("token");
-        window.location.href = "/auth/login";
+        // window.location.href = "/auth/login";
       }
       return Promise.reject(error);
     }

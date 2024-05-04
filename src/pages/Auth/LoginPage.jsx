@@ -2,7 +2,7 @@ import { set, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { storeBulkBuddies } from "../../state/state";
-import { LOGIN_URL, LOGIN_GOOGLE_URL } from "../../api/urls";
+import { LOGIN_URL, LOGIN_GOOGLE_URL, BASE_URL } from "../../api/urls";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AlertUi } from "../../components/Alerts";
@@ -57,8 +57,7 @@ export const LoginPage = () => {
       const request = await axios.post(LOGIN_URL, { email, password }, { withCredentials: true });
       const { first_name, last_name, token } = request.data.data;
 
-      localStorage.setItem("token", token);
-      setIsAuth(true);
+      setIsAuth(true, token);
       setUser(request.data.data)
 
       setAlert({
@@ -87,7 +86,8 @@ export const LoginPage = () => {
   };
 
   const loginGoogle = async () => {
-    window.open(LOGIN_GOOGLE_URL, "_self");
+    window.open(`${BASE_URL}/auth/google`, "_self");
+    // window.open(LOGIN_GOOGLE_URL, "_self");
   };
 
   return (
