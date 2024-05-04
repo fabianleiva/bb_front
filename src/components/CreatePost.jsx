@@ -5,13 +5,25 @@ import { storeBulkBuddies } from "../state/state";
 import DatePicker from "./DatePicker";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { GET_CATEGORIES_URL } from "../api/urls";
-
+import { GET_CATEGORIES_URL, CREATE_NEW_POST } from "../api/urls";
+import { storeDatePicker } from "../state/datepicker.store";
 import dayjs from "dayjs";
 
 export const CreatePost = () => {
   const { categories, setCategories } = storeBulkBuddies();
-
+  const { isoDate } = storeDatePicker();
+  const {
+    handleSubmit,
+    register,
+    // eslint-disable-next-line no-unused-vars
+    formState: { errors },
+    watch,
+  } = useForm({
+    defaultValues: {
+      img_url:
+        "https://www.trschools.com/templates/imgs/default_placeholder.png",
+    },
+  });
   //Get posts and categories data*/
   useEffect(() => {
     const fetchData = async () => {
@@ -25,14 +37,6 @@ export const CreatePost = () => {
     fetchData();
   }, []);
 
-  const {
-    handleSubmit,
-    register,
-    // eslint-disable-next-line no-unused-vars
-    formState: { errors },
-    watch,
-  } = useForm();
-
   const [date, setDate] = useState(null);
 
   // console.log(watch());
@@ -40,29 +44,29 @@ export const CreatePost = () => {
   const setAlert = storeBulkBuddies((state) => state.setAlert);
   const setIsAuth = storeBulkBuddies((state) => state.setIsAuth);
 
-  const onSubmit = handleSubmit((data) => {
-    console.log("call");
-    console.log(data);
-    console.log(date);
-    // createNewPost(data);
+  const onSubmit = handleSubmit(async (data) => {
+    const finalData = {
+      ...data,
+      expiration_date: isoDate,
+    };
+    console.log(finalData);
+    await createNewPost(finalData);
   });
 
-  // const createNewPost = async (data) => {
-  //   try {
-  //     const request = await axios.post(CREATE_NEW_POST, data);
-
-  //     setAlert({
-  //       type: "success",
-  //       message: `Bienvenido ${first_name} ${last_name}`,
-  //     });
-
-  //     setIsAuth(true);
-
-  //     localStorage.setItem("token", token);
-  //   } catch ({ response }) {
-  //     setAlert({ type: "error", message: response.data.message });
-  //   }
-  // };
+  const createNewPost = async (data) => {
+    try {
+      const request = await axios.post(CREATE_NEW_POST, data);
+      setAlert({
+        type: "success",
+        message: `Post creado`,
+      });
+    } catch ({ response }) {
+      setAlert({
+        type: "error",
+        message: response.data.message["expiration_date"] || response.data.message,
+      });
+    }
+  };
 
   return (
     <>
@@ -80,7 +84,7 @@ export const CreatePost = () => {
               {/*POST TITLE*/}
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label
-                  htmlFor="post_title"
+                  htmlFor="title"
                   className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
                 >
                   Título de la publicación
@@ -88,23 +92,28 @@ export const CreatePost = () => {
                 <div className="mt-2 sm:col-span-2 sm:mt-0">
                   <input
                     type="text"
-                    name="post_title"
+                    name="title"
                     id="post_title"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
-                    {...register("post_title", {
+                    {...register("title", {
                       required: {
-                        value: false,
-                        message: "Este campo es requerido",
+                        value: true,
+                        message: "Debes ingresar un título",
                       },
                     })}
                   />
+                  {errors.title && (
+                    <p className="text-sm text-red-500">
+                      {errors.title.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
               {/*PRODUCT URL*/}
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label
-                  htmlFor="post_url"
+                  htmlFor="url"
                   className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
                 >
                   Url del producto
@@ -112,17 +121,20 @@ export const CreatePost = () => {
                 <div className="mt-2 sm:col-span-2 sm:mt-0">
                   <input
                     type="text"
-                    name="post_url"
+                    name="url"
                     id="post_url"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
-                    {...register("post_url", {
+                    {...register("url", {
                       required: {
-                        value: false,
-                        message: "Este campo es requerido",
+                        value: true,
+                        message: "Debes ingresar una url del producto",
                       },
                     })}
                     placeholder="http://..."
                   />
+                  {errors.url && (
+                    <p className="text-sm text-red-500">{errors.url.message}</p>
+                  )}
                 </div>
               </div>
 
@@ -179,7 +191,9 @@ export const CreatePost = () => {
                   />
                 </div>
               </div>
-
+              <div className="w-100 flex justify-center">
+                <img src={watch("img_url")} alt="" className="ml-4 w-64" />
+              </div>
               {/*CATEGORY SELECT*/}
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label
@@ -191,9 +205,9 @@ export const CreatePost = () => {
                 <div className="mt-2">
                   <select
                     id="category"
-                    name="category"
+                    name="category_id"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
-                    {...register("category", { required: true })}
+                    {...register("category_id", { required: true })}
                   >
                     <option>Seleccione una opción</option>
                     {categories.map((item) => (
@@ -213,7 +227,7 @@ export const CreatePost = () => {
               Detalles de la compra
             </h2>
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-600">
-              Cuéntale a tus futurois buddies las condiciones de compra.
+              Cuéntale a tus futuros buddies las condiciones de compra.
             </p>
             <div className="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
               {/*MINIMUM UNITS*/}
@@ -227,40 +241,25 @@ export const CreatePost = () => {
                 <div className="mt-2 sm:col-span-2 sm:mt-0">
                   <input
                     type="number"
-                    name="min_units"
+                    name="required_stock"
                     id="min_units"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
-                    {...register("min_units", {
+                    {...register("required_stock", {
                       required: {
                         value: true,
                         message: "Este campo es requerido",
                       },
-                    })}
-                  />
-                </div>
-              </div>
-
-              {/*INITIAL CONTRIBUTION*/}
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="initial_contribution"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  Contribución inicial
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <input
-                    type="number"
-                    name="user_contribution"
-                    id="initial_contribution"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
-                    {...register("user_contribution", {
-                      required: {
-                        value: true,
-                        message: "Este campo es requerido",
+                      max: {
+                        value: 10000,
+                        message: "El limite son 10 mil por producto",
                       },
                     })}
                   />
+                  {errors.required_stock && (
+                    <p className="text-red-500">
+                      {errors.required_stock.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -283,8 +282,59 @@ export const CreatePost = () => {
                         value: true,
                         message: "Este campo es requerido",
                       },
+                      validate: (value) => {
+                        if (Number(value) > Number(watch("required_stock"))) {
+                          return "El aporte mínimo no puede ser mayor al stock requerido";
+                        } else {
+                          return true;
+                        }
+                      },
                     })}
                   />
+                  {errors.min_contribution && (
+                    <span className="text-red-500">
+                      {errors.min_contribution.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+              {/*INITIAL CONTRIBUTION*/}
+              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+                <label
+                  htmlFor="initial_contribution"
+                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
+                >
+                  Tu contribución inicial
+                </label>
+                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                  <input
+                    type="number"
+                    name="user_stock"
+                    id="initial_contribution"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+                    {...register("user_stock", {
+                      required: {
+                        value: true,
+                        message: "Este campo es requerido",
+                      },
+                      validate: (value) => {
+                        if (Number(value) > Number(watch("required_stock"))) {
+                          return "La contribución inicial no puede ser mayor al stock requerido";
+                        } else if (
+                          Number(value) < Number(watch("min_contribution"))
+                        ) {
+                          return "La contribución inicial no puede ser menor al aporte mínimo";
+                        } else {
+                          return true;
+                        }
+                      },
+                    })}
+                  />
+                  {errors.user_stock && (
+                    <span className="text-red-500">
+                      {errors.user_stock.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -296,7 +346,7 @@ export const CreatePost = () => {
                 >
                   Precio unitario
                 </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
+                <div className="mt-2 sm:col-span-2 sm:mt-0 flex items-center gap-2 ">
                   <input
                     type="number"
                     name="unit_price"
@@ -307,8 +357,18 @@ export const CreatePost = () => {
                         value: true,
                         message: "Este campo es requerido",
                       },
+                      min: {
+                        value: 1,
+                        message: "El valor debe ser mayor que 0",
+                      },
                     })}
                   />
+                  <span>$</span>
+                  {errors.unit_price && (
+                    <span className="text-red-500">
+                      {errors.unit_price.message}
+                    </span>
+                  )}
                 </div>
               </div>
 
