@@ -54,7 +54,7 @@ export const LoginPage = () => {
   const login = async ({ email, password }) => {
     try {
       setLoading(true)
-      const request = await axios.post(LOGIN_URL, { email, password });
+      const request = await axios.post(LOGIN_URL, { email, password }, { withCredentials: true });
       const { first_name, last_name, token } = request.data.data;
 
       localStorage.setItem("token", token);
