@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 export const Post = () => {
   const { post_id } = useParams();
   const POST_DETAIL_URL = `/post/${post_id}`;
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState({});
   const [postLog, setPostLog] = useState(null);
   const [isUserJoined, setIsUserJoined] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -29,16 +29,18 @@ export const Post = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     const currentUserInfo = JSON.parse(localStorage.getItem("user"));
-    console.log(data);
-    const finalData = {
-      user_id: currentUserInfo.id,
-      ...data,
-    };
-    await joinPost(finalData);
-    setIsSubmitted(true);
-    console.log(isSubmmited);
-    console.log(finalData);
-  });
+    setLoading(true);
+    try {
+      await joinPost({
+        ...data,
+        user_id: currentUserInfo.id,
+      });
+      setIsSubmitted(true);
+    }catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }  });
 
   const joinPost = async (data) => {
     try {
@@ -51,6 +53,7 @@ export const Post = () => {
         type: "success",
         message: `Te has unido al post`,
       });
+      setPost(response.data.post);
     } catch (error) {
       console.log(error);
       setAlert({
@@ -61,9 +64,8 @@ export const Post = () => {
   };
   const checkIfUserJoined = () => {
     try {
-      const currentUserInfo = JSON.parse(localStorage.getItem("user"));
       if (!postLog) return;
-
+      const currentUserInfo = JSON.parse(localStorage.getItem("user"));
       const findUser = postLog.some(
         (log) => log.user_id === currentUserInfo.id
       );
@@ -76,64 +78,66 @@ export const Post = () => {
       } else {
         setIsUserJoined(false);
       }
+      findUser ? setIsUserJoined(true) : setIsUserJoined(false);
+
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getRemainingRequiredStock = () => {
+  const getRemainingRequiredStock = (logs) => {
     try {
-      if (!postLog) return;
-      const sum = postLog.reduce((acc, log) => {
+      if (!logs) return;
+      const sum = logs.reduce((acc, log) => {
         return acc + log.item_by_this_user;
       }, 0);
 
-      console.log("sum final", sum - post?.required_stock);
-      const required_stock = post?.required_stock;
-      console.log("post required stock", post?.required_stock);
+      const required_stock = post.required_stock;
       setRemainingRequiredStock(required_stock - sum);
-      console.log("is not a number", isNaN(remainingRequiredStock));
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getDetailsPost = async () => {
+    try {
+      const { data } = await axios.get(POST_DETAIL_URL);
+
+      if (!data) return;
+
+      const highlights = [`Unidades requeridas: ${data.min_contribution},
+           Contribución minima: ${data.required_stock}`];
+      setPost({
+        ...data,
+        highlights
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getPostLog = async () => {
+    setLoading(true);
     try {
       const postResponse = await axios.get(
         `https://bulkbuddies.onrender.com/api/v1/post/log/${post_id}`
       );
       const { logs } = postResponse.data;
-      if (!postLog) {
-        setPostLog(logs);
-        setLoading(false);
-      }
-      console.log(logs);
-      return;
+      if (!logs) return;
+      setLoading(false);
+      setPostLog(logs);
+      getRemainingRequiredStock(logs)
+      checkIfUserJoined();
     } catch (error) {
       console.log(error);
     }
   };
   //Get posts and categories data*/
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const postResponse = await axios.get(POST_DETAIL_URL);
-
-        if (post.length === 0) {
-          setPost(postResponse.data);
-        }
-
-        console.log(postResponse.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
+    getDetailsPost();
     getPostLog();
-    checkIfUserJoined();
-    getRemainingRequiredStock();
-    console.log("submitted", isSubmmited);
-  }, [postLog, remainingRequiredStock, post, isSubmmited]);
+  }, []);
 
   useEffect(() => {
     if (post && post.created_by) {
