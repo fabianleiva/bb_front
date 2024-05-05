@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { GET_POSTS_URL, GET_CATEGORIES_URL } from "../../api/urls";
+import { GET_POSTS_URL } from "../../api/urls";
 import { storeBulkBuddies } from "../../state/state";
 import dayjs from "dayjs";
 import { LinearProgress } from "@mui/material";
 
 export const Explore = () => {
   const { products, setProducts } = storeBulkBuddies();
-  const { categories, setCategories } = storeBulkBuddies();
+  const categories = storeBulkBuddies(state => state.categories)
+
+  console.log(categories)
   const [loading, setLoading] = useState(true);
 
   //Get posts and categories data*/
@@ -16,11 +18,9 @@ export const Explore = () => {
     const fetchData = async () => {
       try {
         const postsResponse = await axios.get(GET_POSTS_URL);
-        const categoriesResponse = await axios.get(GET_CATEGORIES_URL);
-
         setProducts(postsResponse.data);
         setLoading(false);
-        setCategories(categoriesResponse.data.categories);
+
       } catch (error) {
         console.log(error);
       }
@@ -31,7 +31,9 @@ export const Explore = () => {
 
   return loading ? (
     <>
+      <div className="mt-16">
       <LinearProgress />
+      </div>
     </>
   ) : (
     <div className="px-2 py-24 sm:py-32 border min-h-[100vh]">
@@ -54,20 +56,12 @@ export const Explore = () => {
               className="flex flex-col items-start bg-white rounded-3xl p-5 shadow-md justify-between max-w-2xl"
             >
               <div>
-                {/*Category*/}
-                {categories.map((category) => {
-                  if (category.id === post.category_id) {
-                    return (
-                      <div
-                        key={category.id}
-                        className="text-gray-500 mb-2 text-sm"
-                      >
-                        {category.name}
-                      </div>
-                    );
+
+                <span className="text-gray-500 mb-2 text-sm">
+                  {
+                    categories[post?.category_id].name
                   }
-                  return null;
-                })}
+                </span>
                 {/*Image url*/}
                 <Link to={`/posts/${post.id}`} className="w-full">
                   <div className="relative w-full group overflow-hidden rounded-2xl">

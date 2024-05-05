@@ -201,8 +201,8 @@ export const Post = () => {
                     </p>
                   </div>
                   <div>
-                    <p className="text-lg tracking-tight text-red-500">
-                      Fecha límite:{" "}
+                      <p className="text-lg tracking-tight text-red-500 outline outline-1 outline-red-500 px-6 py-1 rounded-md">
+                        Fecha límite: {""}
                       {dayjs(post.expiration_date).format("DD/MM/YYYY")}
                     </p>
                   </div>
@@ -214,11 +214,11 @@ export const Post = () => {
                   onSubmit={onSubmit}
                 >
                   {remainingRequiredStock <= 0 ? (
-                    <p className="bg-red-500 text-white font-bold py-2 px-4 rounded-md">
+                      <p className="bg-red-500 text-white font-bold py-2 px-4 rounded-md text-center">
                       Finalizado
                     </p>
                   ) : isUserJoined ? (
-                    <span className="bg-red-500 text-white font-bold py-2 px-4 rounded-md text-center">
+                        <span className=" bg-emerald-500 text-white font-bold py-2 px-4 rounded-md text-center">
                       Ya te has unido
                     </span>
                   ) : (
@@ -304,7 +304,7 @@ export const Post = () => {
                 <div className="lg:mt-10">
                   <h2 className="text-sm font-medium text-gray-900 mt-10">
                     Creado por:
-                    <span className="lowercase text-gray-400 font-normal">
+                      <span className="ml-1 lowercase text-gray-400 font-normal">
                       {user?.username}
                     </span>
                   </h2>

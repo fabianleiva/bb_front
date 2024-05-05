@@ -29,8 +29,21 @@ export const storeBulkBuddies = create((set) => ({
   setAlert: (value) => set(() => ({ alert: value })),
   products: [],
   setProducts: (value) => set(() => ({ products: value })),
-  categories: [],
-  setCategories: (value) => set(() => ({ categories: value })),
+  categories: undefined,
+  setCategories: (value) => set(() => {
+    localStorage.setItem('categories', JSON.stringify(value))
+
+    const toEntities = (collection) => {
+      return collection.reduce((prev, next) => ({
+        ...prev,
+        [next.id]: next
+      }), {});
+    };
+    console.log(toEntities(value))
+
+
+    return { categories: toEntities(value) }
+  }),
   setIsPostCreated: (value) => set(() => ({ isPostCreated: value })),
   isPostCreated: false,
 }));
