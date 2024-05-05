@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GET_POSTS_URL, GET_CATEGORIES_URL } from "../../api/urls";
 import { storeBulkBuddies } from "../../state/state";
 import dayjs from "dayjs";
+import { LinearProgress } from "@mui/material";
 
 export const Explore = () => {
-
   const { products, setProducts } = storeBulkBuddies();
   const { categories, setCategories } = storeBulkBuddies();
+  const [loading, setLoading] = useState(true);
+
   //Get posts and categories data*/
   useEffect(() => {
     const fetchData = async () => {
@@ -17,16 +19,21 @@ export const Explore = () => {
         const categoriesResponse = await axios.get(GET_CATEGORIES_URL);
 
         setProducts(postsResponse.data);
+        setLoading(false);
         setCategories(categoriesResponse.data.categories);
       } catch (error) {
         console.log(error);
       }
     };
-  
+
     fetchData();
   }, []);
 
-  return (
+  return loading ? (
+    <>
+      <LinearProgress />
+    </>
+  ) : (
     <div className="px-2 py-24 sm:py-32 border min-h-[100vh]">
       <div className="mx-auto max-w-7xl xl:max-w-full px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
