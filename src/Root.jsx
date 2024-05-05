@@ -6,9 +6,11 @@ import { useEffect } from "react";
 export const Root = () => {
   const alert = storeBulkBuddies(state => state.alert);
   const setUser = storeBulkBuddies(state => state.setUser);
-
+  const setIsAuth = storeBulkBuddies(state => state.setIsAuth)
+  const token = localStorage.getItem('token')
   if (localStorage.getItem("user")) {
     setUser(JSON.parse(localStorage.getItem("user")));
+    setIsAuth(true, token)
   }
 
   const { pathname } = useLocation();
