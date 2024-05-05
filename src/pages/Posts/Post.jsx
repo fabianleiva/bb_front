@@ -6,6 +6,7 @@ import { storeBulkBuddies } from "../../state/state";
 import { LinearProgress } from "@mui/material";
 import dayjs from "dayjs";
 
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 export const Post = () => {
   const { post_id } = useParams();
   const POST_DETAIL_URL = `/post/${post_id}`;
@@ -18,6 +19,7 @@ export const Post = () => {
   const [remainingRequiredStock, setRemainingRequiredStock] = useState(0);
   const [isSubmmited, setIsSubmitted] = useState(false);
   const [user, setUser] = useState();
+  const axiosPrivate = useAxiosPrivate();
   const {
     handleSubmit,
     register,
@@ -45,7 +47,7 @@ export const Post = () => {
     }
   });
 
-  const getDetailsPost = async () => {
+  /*   const getDetailsPost = async () => {
     try {
       const { data } = await axios.get(POST_DETAIL_URL);
       if (!data) return;
@@ -59,36 +61,35 @@ export const Post = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; */
 
   useEffect(() => {
-    fetchAll()
-  }, []);
-
+    fetchAll();
+  }, [isSubmmited]);
 
   const fetchAll = async () => {
     const getDetailsPost = async () => {
       try {
         const { data } = await axios.get(POST_DETAIL_URL);
         if (!data) return;
-        const highlights = [`Unidades requeridas: ${data.required_stock},
-      Contribución minima: ${data.min_contribution}`];
+        const highlights = [
+          `Unidades requeridas: ${data.required_stock},
+      Contribución minima: ${data.min_contribution}`,
+        ];
         setPost({
           ...data,
-          highlights
+          highlights,
         });
-
       } catch (error) {
         console.log(error);
       }
     };
-    getDetailsPost()
-    getPostLog()
-  }
-
+    await getDetailsPost();
+    await getPostLog();
+  };
 
   useEffect(() => {
-    debugger
+    console.log("is there a post", post);
     if (post && post.created_by) {
       const GET_USER_URL = `/user/${post.created_by}`;
       const getUserData = async () => {
@@ -99,18 +100,14 @@ export const Post = () => {
           console.log(error);
         }
       };
-      getRemainingRequiredStock(postLog)
+      getRemainingRequiredStock(postLog);
       getUserData();
     }
-  }, []);
-
+  }, [remainingRequiredStock]);
 
   const joinPost = async (data) => {
     try {
-      const response = await axios.patch(
-        `https://bulkbuddies.onrender.com/api/v1/post/stock/${post_id}`,
-        data
-      );
+      const response = await axiosPrivate.patch(`/post/stock/${post_id}`, data);
       console.log(response.data);
       setAlert({
         type: "success",
@@ -129,13 +126,11 @@ export const Post = () => {
     try {
       if (!postLog) return;
       const currentUserInfo = JSON.parse(localStorage.getItem("user"));
-
-      const currentUserInfo = JSON.parse(localStorage.getItem("user"));
+      console.log(currentUserInfo.id);
       const findUser = postLog.some(
         (log) => log.user_id === currentUserInfo.id
       );
       findUser ? setIsUserJoined(true) : setIsUserJoined(false);
-
     } catch (error) {
       console.log(error);
     }
@@ -143,8 +138,7 @@ export const Post = () => {
 
   const getRemainingRequiredStock = (logs) => {
     try {
-      debugger
-
+      console.log(logs);
       if (!logs) return;
       const sum = logs.reduce((acc, log) => {
         return acc + log.item_by_this_user;
@@ -159,8 +153,6 @@ export const Post = () => {
     }
   };
 
-
-
   const getPostLog = async () => {
     setLoading(true);
     try {
@@ -172,7 +164,7 @@ export const Post = () => {
       setLoading(false);
       setPostLog(logs);
 
-      // getRemainingRequiredStock(logs)
+      getRemainingRequiredStock(logs);
       checkIfUserJoined(logs);
     } catch (error) {
       console.log(error);
@@ -245,12 +237,9 @@ export const Post = () => {
                       Finalizado
                     </p>
                   ) : isUserJoined ? (
-                    <button
-                      type="submit"
-                      className="bg-red-500 text-white font-bold py-2 px-4 rounded-md"
-                    >
+                    <span className="bg-red-500 text-white font-bold py-2 px-4 rounded-md text-center">
                       Ya te has unido
-                    </button>
+                    </span>
                   ) : (
                     <>
                       <label
@@ -260,17 +249,17 @@ export const Post = () => {
                         Ingresa tu contribución
                       </label>
                       <input
-                              type="text"
+                        type="text"
                         id="contribution"
                         name="user_contribution"
                         {...register("user_contribution")}
                         className="rounded-md"
                       />
-                            {errors.user_contribution?.type === "validate" && (
-                              <small className="text-red-500">
-                                {errors.user_contribution.message}
-                              </small>
-                            )}
+                      {errors.user_contribution?.type === "validate" && (
+                        <small className="text-red-500">
+                          {errors.user_contribution.message}
+                        </small>
+                      )}
                       <button
                         type="submit"
                         className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-buddies-blue-700 px-8 py-3 text-base font-medium text-white hover:bg-buddies-blue-500 focus:outline-none focus:ring-2 focus:ring-buddies-blue-700 focus:ring-offset-2"
@@ -316,16 +305,16 @@ export const Post = () => {
                     </li>
 
                     <li className="text-gray-400">
-                        <p className="text-gray-600">
-                          Unidades faltantes:
+                      <p className="text-gray-600">
+                        Unidades faltantes:
                         {remainingRequiredStock < 0 ? (
-                            <span className="text-red-500 font-bold py-2 px-4 rounded">
+                          <span className="text-red-500 font-bold py-2 px-4 rounded">
                             Se ha completado
-                            </span>
+                          </span>
                         ) : (
                           remainingRequiredStock
-                          )}
-                        </p>
+                        )}
+                      </p>
                     </li>
                   </ul>
                 </div>
@@ -333,7 +322,7 @@ export const Post = () => {
                 {/* User */}
                 <div className="lg:mt-10">
                   <h2 className="text-sm font-medium text-gray-900 mt-10">
-                      Creado por:
+                    Creado por:
                     <span className="lowercase text-gray-400 font-normal">
                       {user?.username}
                     </span>
