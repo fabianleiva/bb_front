@@ -1,89 +1,38 @@
-import { useState, useEffect, lazy } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { storeBulkBuddies } from "../state/state";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import dayjs from "dayjs";
+import { ChevronDoubleRightIcon } from "@heroicons/react/20/solid";
+import { Link } from "react-router-dom";
 
-export const FieldProfile = ({
-  label,
-  userValue,
-  editing,
-  register,
-  registerName,
-  registerOptions,
-  children,
-}) => {
-  return (
-    <>
-      <div className="pt-6 sm:flex">
-        <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-          {label}
-        </dt>
-        <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-          <div className="text-gray-900">
-            {editing ? (
-              <>
-                <div className="flex flex-col">
-                  <input
-                    type="text"
-                    id={registerName}
-                    name={`${registerName}`}
-                    className="border border-gray-300 rounded-md px-3 py-1"
-                    {...register(`${registerName}`, {
-                      required: {
-                        value: true,
-                        message: "Campo es requerido",
-                      },
-                    })}
-                  />
-                  {children}
-                </div>
-              </>
-            ) : (
-              `${userValue}`
-            )}
-          </div>
-        </dd>
-      </div>
-    </>
-  );
-};
 
 export const UserCart = () => {
   const isAuth = storeBulkBuddies((state) => state.isAuth);
   const user = storeBulkBuddies((state) => state.user);
-  console.log(user);
+  const categories = storeBulkBuddies((state) => state.categories);
+  const [loading, setLoading] = useState(false)
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-    formState: { errors, isDirty, dirtyFields },
-  } = useForm();
+  const [post, setPosts] = useState(null)
 
   useEffect(() => {
     if (!isAuth) {
       Navigate("/auth/login");
     }
+
+    setLoading(true)
+    const getPost = async () => {
+      const { data: { logs } } = await axios.get(`/post/user/log/${user.id}`)
+      if (!logs) return
+      setLoading(false)
+      setPosts(logs)
+      console.log(logs)
+    }
+
+    getPost()
+
   }, []);
-
-  const submit = handleSubmit((data) => {
-    console.log(data);
-    console.log("errors =>", errors);
-  });
-
-  const people = [
-    {
-      title: "Abrigos de perro",
-      category: "Mascotas",
-      role: "Creador",
-      status: "2000/10000",
-      exp_date: "13-09-2024",
-      email: "foo@foo.cl"
-    },
-  ];
 
   return (
     <>
@@ -92,12 +41,12 @@ export const UserCart = () => {
           {/*Shopping details*/}
           <div className="h-full">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
-              Detalle de compras
+              Bulkings
             </h2>
             <p className="mt-1 text-sm leading-6 text-gray-500">
-              Aquí puedes ver información de las publicaciones que has creado o
-              de las cuales participas.
+              Aquí puedes ver información de las publicaciones que has creado o te haz unido
             </p>
+
 
             <dl className="mt-6 space-y-6 divide-y divide-gray-100 text-sm leading-6">
               {/*Table details*/}
@@ -113,7 +62,7 @@ export const UserCart = () => {
                                 scope="col"
                                 className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-buddies-blue-700 sm:pl-0"
                               >
-                                Título del post
+                                Producto
                               </th>
                               <th
                                 scope="col"
@@ -135,7 +84,7 @@ export const UserCart = () => {
                               </th>
                               <th
                                 scope="col"
-                                className="px-3 py-3.5 text-right text-sm font-semibold text-buddies-blue-700"
+                                className="px-3 py-3.5 text-left text-sm font-semibold text-buddies-blue-700"
                               >
                                 Fecha límite
                               </th>
@@ -143,25 +92,52 @@ export const UserCart = () => {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200">
-                            {people.map((person) => (
-                              <tr key={person.email}>
-                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                                  {person.title}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {person.category}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {person.role}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {person.status}
-                                </td>
-                                <td className="whitespace-nowrap px-3 text-right py-4 text-sm text-gray-500">
-                                  {person.exp_date}
-                                </td>
+                            {!loading ?
+                              (post && post.map((item, index) => (
+                                <tr key={item.post_id + index}>
+                                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                                    {item.title}
+                                  </td>
+                                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {categories[item.category_id].name}
+                                  </td>
+                                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {item.role}
+                                  </td>
+                                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {item.status === 'activo' ? <span
+                                      className="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded capitalize"
+                                    >
+                                      {item.status}
+                                    </span>
+                                      : <span
+                                        className="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded capitalize"
+                                      >
+                                        {item.status}
+                                      </span>
+                                    }
+                                  </td>
+                                  <td className="whitespace-nowrap px-3 text-left py-4 text-sm text-gray-500">
+                                    {dayjs(item.date).format('L')}
+                                  </td>
+                                  <td className="whitespace-nowrap px-3 text-right py-4 text-sm text-buddies-700 ">
+                                    <Link
+                                      to={`/posts/${item.post_id}`}
+                                      className="flex w-full justify-end items-center gap rounded-md px-1.5 py-1.5 text-sm font-semibold leading-6 text-buddies-blue-700 hover:text-buddies-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-buddies-blue-700
+                                      "
+                                    >
+                                      Ver Post
+                                      <ChevronDoubleRightIcon className="h-5 w-5" />
+
+                                    </Link>
+                                  </td>
+                                </tr>
+                              )))
+                              :
+                              <tr colSpan={12} >
+                                <p>Cargando Datos </p>
                               </tr>
-                            ))}
+                            }
                           </tbody>
                         </table>
                       </div>
@@ -170,6 +146,7 @@ export const UserCart = () => {
                 </div>
               </div>
             </dl>
+
           </div>
 
           <div className="flex gap-4 justify-end"></div>

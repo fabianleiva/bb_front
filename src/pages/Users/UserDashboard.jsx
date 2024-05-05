@@ -1,6 +1,7 @@
-import { useState, useEffect, lazy } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { storeBulkBuddies } from "../state/state";
+import { storeBulkBuddies } from "../../state/state";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 

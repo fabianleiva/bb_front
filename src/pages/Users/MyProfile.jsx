@@ -1,7 +1,8 @@
-import { UserDashboard } from "../../components/UserDashboard";
+
 import { UserCart } from "../../components/UserCart";
 import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { UserDashboard } from "./UserDashboard";
 
 const secondaryNavigation = [
   {

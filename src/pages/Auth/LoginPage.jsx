@@ -1,8 +1,8 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { storeBulkBuddies } from "../../state/state";
-import { LOGIN_URL, LOGIN_GOOGLE_URL, BASE_URL } from "../../api/urls";
+import { LOGIN_URL, BASE_URL } from "../../api/urls";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AlertUi } from "../../components/Alerts";
@@ -40,7 +40,7 @@ export const LoginPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsAuth(true);
+      setIsAuth(true, token);
       navigate("/user/profile");
     }
 
