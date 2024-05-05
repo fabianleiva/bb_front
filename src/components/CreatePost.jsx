@@ -9,7 +9,7 @@ import { GET_CATEGORIES_URL, CREATE_NEW_POST } from "../api/urls";
 import { storeDatePicker } from "../state/datepicker.store";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 export const CreatePost = () => {
   const { categories, setCategories } = storeBulkBuddies();
   const { isoDate } = storeDatePicker();
@@ -49,7 +49,7 @@ export const CreatePost = () => {
 
   const setAlert = storeBulkBuddies((state) => state.setAlert);
   const setIsAuth = storeBulkBuddies((state) => state.setIsAuth);
-
+  const axiosPrivate = useAxiosPrivate();
   const onSubmit = handleSubmit(async (data) => {
     const finalData = {
       ...data,
@@ -62,7 +62,7 @@ export const CreatePost = () => {
 
   const createNewPost = async (data) => {
     try {
-      const request = await axios.post(CREATE_NEW_POST, data);
+      const request = await axiosPrivate.post(CREATE_NEW_POST, data);
       setAlert({
         type: "success",
         message: `Post creado`,
