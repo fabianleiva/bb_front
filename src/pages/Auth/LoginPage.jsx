@@ -40,7 +40,7 @@ export const LoginPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsAuth(true);
+      setIsAuth(true, token);
       navigate("/user/profile");
     }
 
