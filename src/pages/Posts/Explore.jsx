@@ -9,7 +9,6 @@ export const Explore = () => {
 
   const { products, setProducts } = storeBulkBuddies();
   const { categories, setCategories } = storeBulkBuddies();
-
   //Get posts and categories data*/
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +22,7 @@ export const Explore = () => {
         console.log(error);
       }
     };
+  
     fetchData();
   }, []);
 
