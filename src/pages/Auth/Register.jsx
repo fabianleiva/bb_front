@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { REGISTER_URL } from "../../api/urls";
+import { BASE_URL, REGISTER_URL } from "../../api/urls";
 import { REGISTER_GOOGLE_URL } from "../../api/urls";
 import { AlertUi } from "../../components/Alerts";
 
@@ -53,7 +53,7 @@ export const Register = () => {
   };
 
   const registerGoogle = async () => {
-    window.open(REGISTER_GOOGLE_URL, "_self");
+    window.open(BASE_URL + REGISTER_GOOGLE_URL, "_self");
   };
 
   return (
