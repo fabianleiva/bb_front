@@ -36,11 +36,72 @@ export const Post = () => {
         user_id: currentUserInfo.id,
       });
       setIsSubmitted(true);
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-    }  });
+    }
+  });
+
+  const getDetailsPost = async () => {
+    try {
+      const { data } = await axios.get(POST_DETAIL_URL);
+      if (!data) return;
+      const highlights = [`Unidades requeridas: ${data.required_stock},
+      Contribución minima: ${data.min_contribution}`];
+      setPost({
+        ...data,
+        highlights
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAll()
+  }, []);
+
+
+  const fetchAll = async () => {
+    const getDetailsPost = async () => {
+      try {
+        const { data } = await axios.get(POST_DETAIL_URL);
+        if (!data) return;
+        const highlights = [`Unidades requeridas: ${data.required_stock},
+      Contribución minima: ${data.min_contribution}`];
+        setPost({
+          ...data,
+          highlights
+        });
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDetailsPost()
+    getPostLog()
+  }
+
+
+  useEffect(() => {
+    debugger
+    if (post && post.created_by) {
+      const GET_USER_URL = `/user/${post.created_by}`;
+      const getUserData = async () => {
+        try {
+          const userResponse = await axios.get(GET_USER_URL);
+          setUser(userResponse.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getRemainingRequiredStock(postLog)
+      getUserData();
+    }
+  }, []);
+
 
   const joinPost = async (data) => {
     try {
@@ -62,22 +123,14 @@ export const Post = () => {
       });
     }
   };
-  const checkIfUserJoined = () => {
+  const checkIfUserJoined = (postLog) => {
     try {
       if (!postLog) return;
       const currentUserInfo = JSON.parse(localStorage.getItem("user"));
+
       const findUser = postLog.some(
         (log) => log.user_id === currentUserInfo.id
       );
-      const mapi = postLog.map((log) => {
-        return log.user_id;
-      });
-      console.log("this is mapi", mapi, "and finduser", findUser);
-      if (findUser) {
-        setIsUserJoined(true);
-      } else {
-        setIsUserJoined(false);
-      }
       findUser ? setIsUserJoined(true) : setIsUserJoined(false);
 
     } catch (error) {
@@ -87,35 +140,23 @@ export const Post = () => {
 
   const getRemainingRequiredStock = (logs) => {
     try {
+      debugger
+
       if (!logs) return;
       const sum = logs.reduce((acc, log) => {
         return acc + log.item_by_this_user;
       }, 0);
 
       const required_stock = post.required_stock;
-      setRemainingRequiredStock(required_stock - sum);
+
+      const result = required_stock - sum;
+      setRemainingRequiredStock(result);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getDetailsPost = async () => {
-    try {
-      const { data } = await axios.get(POST_DETAIL_URL);
 
-      if (!data) return;
-
-      const highlights = [`Unidades requeridas: ${data.min_contribution},
-           Contribución minima: ${data.required_stock}`];
-      setPost({
-        ...data,
-        highlights
-      });
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getPostLog = async () => {
     setLoading(true);
@@ -127,32 +168,14 @@ export const Post = () => {
       if (!logs) return;
       setLoading(false);
       setPostLog(logs);
-      getRemainingRequiredStock(logs)
-      checkIfUserJoined();
+
+      // getRemainingRequiredStock(logs)
+      checkIfUserJoined(logs);
     } catch (error) {
       console.log(error);
     }
   };
   //Get posts and categories data*/
-  useEffect(() => {
-    getDetailsPost();
-    getPostLog();
-  }, []);
-
-  useEffect(() => {
-    if (post && post.created_by) {
-      const GET_USER_URL = `/user/${post.created_by}`;
-      const getUserData = async () => {
-        try {
-          const userResponse = await axios.get(GET_USER_URL);
-          setUser(userResponse.data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      getUserData();
-    }
-  }, [post]);
 
   return loading ? (
     <>
@@ -282,17 +305,16 @@ export const Post = () => {
                     </li>
 
                     <li className="text-gray-400">
-                      <span className="text-gray-600">
-                        Unidades faltantes:{" "}
+                        <p className="text-gray-600">
+                          Unidades faltantes:
                         {remainingRequiredStock < 0 ? (
-                          <p className="bg-red-500 text-white font-bold py-2 px-4 rounded">
+                            <span className="text-red-500 font-bold py-2 px-4 rounded">
                             Se ha completado
-                          </p>
+                            </span>
                         ) : (
                           remainingRequiredStock
-                        )}{" "}
-                        un
-                      </span>
+                          )}
+                        </p>
                     </li>
                   </ul>
                 </div>
@@ -300,7 +322,7 @@ export const Post = () => {
                 {/* User */}
                 <div className="lg:mt-10">
                   <h2 className="text-sm font-medium text-gray-900 mt-10">
-                    Creado por:{" "}
+                      Creado por:
                     <span className="lowercase text-gray-400 font-normal">
                       {user?.username}
                     </span>
