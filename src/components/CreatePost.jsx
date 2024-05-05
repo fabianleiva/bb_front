@@ -29,7 +29,6 @@ export const CreatePost = () => {
   const { setIsPostCreated, isPostCreated } = storeBulkBuddies();
   //Get posts and categories data*/
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         const categoriesResponse = await axios.get(GET_CATEGORIES_URL);
@@ -56,9 +55,9 @@ export const CreatePost = () => {
       ...data,
       expiration_date: isoDate,
     };
+    await createNewPost(finalData);
     console.log(finalData);
     setIsPostCreated(true);
-  /*   await createNewPost(finalData); */
   });
 
   const createNewPost = async (data) => {
@@ -68,7 +67,6 @@ export const CreatePost = () => {
         type: "success",
         message: `Post creado`,
       });
-
     } catch ({ response }) {
       setAlert({
         type: "error",
