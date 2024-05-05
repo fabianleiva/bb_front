@@ -23,12 +23,9 @@ export const Post = () => {
   const {
     handleSubmit,
     register,
-    // eslint-disable-next-line no-unused-vars
     formState: { errors },
-    watch,
   } = useForm();
 
-  const setIsAuth = storeBulkBuddies((state) => state.setIsAuth);
   const setAlert = storeBulkBuddies((state) => state.setAlert);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -47,22 +44,6 @@ export const Post = () => {
     }
   });
 
-  /*   const getDetailsPost = async () => {
-    try {
-      const { data } = await axios.get(POST_DETAIL_URL);
-      if (!data) return;
-      const highlights = [`Unidades requeridas: ${data.required_stock},
-      Contribución minima: ${data.min_contribution}`];
-      setPost({
-        ...data,
-        highlights
-      });
-
-    } catch (error) {
-      console.log(error);
-    }
-  }; */
-
   useEffect(() => {
     fetchAll();
   }, [isSubmmited]);
@@ -74,7 +55,7 @@ export const Post = () => {
         if (!data) return;
         const highlights = [
           `Unidades requeridas: ${data.required_stock},
-      Contribución minima: ${data.min_contribution}`,
+          Contribución minima: ${data.min_contribution}`,
         ];
         setPost({
           ...data,
