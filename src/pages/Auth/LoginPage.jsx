@@ -86,6 +86,7 @@ export const LoginPage = () => {
   };
 
   const loginGoogle = async () => {
+    console.log(BASE_URL)
     window.open(`${BASE_URL}/auth/google`, "_self");
     // window.open(LOGIN_GOOGLE_URL, "_self");
   };

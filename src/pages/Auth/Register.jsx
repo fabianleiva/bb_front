@@ -53,6 +53,8 @@ export const Register = () => {
   };
 
   const registerGoogle = async () => {
+    console.log(BASE_URL)
+    console.log(REGISTER_URL)
     window.open(BASE_URL + REGISTER_GOOGLE_URL, "_self");
   };
 
