@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 export const CreatePost = () => {
-  const { categories, setCategories } = storeBulkBuddies();
+  const  [categories, setCategories]  = useState([]);
   const { isoDate } = storeDatePicker();
   const navigate = useNavigate();
   const {
@@ -33,7 +33,6 @@ export const CreatePost = () => {
       try {
         const categoriesResponse = await axios.get(GET_CATEGORIES_URL);
         setCategories(categoriesResponse.data.categories);
-        console.log(isPostCreated);
         if (isPostCreated) {
           navigate("/posts/explore");
         }
