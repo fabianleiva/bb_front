@@ -1,7 +1,7 @@
 import axios from "axios";
+import { BASE_URL } from "./urls";
 
-// axios.defaults.baseURL = "http://localhost:3000/api/v1/";
-axios.defaults.baseURL = "https://bulkbuddies.onrender.com/api/v1/";
+axios.defaults.baseURL = BASE_URL;
 
 export const axiosInterceptor = () => {
   const addToken = (config) => {

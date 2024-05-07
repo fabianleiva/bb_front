@@ -19,7 +19,9 @@ export const AuthSuccess = () => {
 
   const getDataUser = async () => {
     try {
-      const { data } = await axios.get("auth/success");
+      const { data } = await axios.get("auth/success", {
+        withCredentials: true,
+      });
       const googleUser = data.data;
       setUser(googleUser);
       setIsAuth(true, googleUser.token);
