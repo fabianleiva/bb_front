@@ -8,31 +8,35 @@ import { LinearProgress } from "@mui/material";
 
 export const Explore = () => {
   const { products, setProducts } = storeBulkBuddies();
-  const categories = storeBulkBuddies(state => state.categories)
+  const categories = storeBulkBuddies((state) => state.categories);
 
-  console.log(categories)
   const [loading, setLoading] = useState(true);
-
+  const [categoryList, setCategoryList] = useState([]);
+  const [category, setCategory] = useState();
   //Get posts and categories data*/
   useEffect(() => {
     const fetchData = async () => {
       try {
         const postsResponse = await axios.get(GET_POSTS_URL);
         setProducts(postsResponse.data);
-        setLoading(false);
 
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
-
+    if (categories) {
+      const newList = Object.values(categories);
+      setCategoryList(newList);
+    }
+    console.log(category);
     fetchData();
-  }, []);
+  }, [category]);
 
   return loading ? (
     <>
       <div className="mt-16">
-      <LinearProgress />
+        <LinearProgress />
       </div>
     </>
   ) : (
@@ -47,7 +51,30 @@ export const Explore = () => {
             precio.
           </p>
         </div>
-
+        <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
+          >
+            Categoria
+          </label>
+          <div className="mt-2">
+            <select
+              id="category"
+              name="category_id"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-buddies-blue-700 sm:max-w-xs sm:text-sm sm:leading-6"
+              value={(e) => setCategory(e.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option>Seleccione una opción</option>
+              {categoryList.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2 xl:grid-cols-4 place-content-center">
           {/*Render Cards*/}
           {products.map((post) => (
@@ -56,11 +83,8 @@ export const Explore = () => {
               className="flex flex-col items-start bg-white rounded-3xl p-5 shadow-md justify-between max-w-2xl"
             >
               <div>
-
                 <span className="text-gray-500 mb-2 text-sm">
-                  {
-                    categories[post?.category_id].name
-                  }
+                  {categories[post?.category_id].name}
                 </span>
                 {/*Image url*/}
                 <Link to={`/posts/${post.id}`} className="w-full">
