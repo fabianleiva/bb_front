@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { storeBulkBuddies } from "../../state/state";
@@ -49,7 +48,8 @@ export const UserDashboard = () => {
 
   const isAuth = storeBulkBuddies((state) => state.isAuth)
   const user = storeBulkBuddies((state) => state.user)
-
+  
+  const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false)
   const [editing, setEditing] = useState(false)
 
@@ -68,62 +68,60 @@ export const UserDashboard = () => {
     defaultValues: {
       first_name: user.first_name,
       last_name: user.last_name,
+      username: user.username,
       email: user.email
     }
   })
 
   useEffect(() => {
     if (!isAuth) {
-      Navigate("/auth/login")
+      Navigate("/auth/login");
+    } else {
+      getUserData();
     }
-    // getDataUser()
-  }, [])
+  }, []);
 
+  const getUserData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/user/${user.id}`);
+      setUserData(response.data); 
+      setLoading(false);
+    } catch (error) {
+      console.error("Error al obtener los datos del usuario:", error);
+      setLoading(false);
+    }
+  };
 
-  // const getDataUser = async () => {
-  //   try {
-  //     const fetch = axios.get(`/user/${user.id}`)
-  //     console.log(fetch.data.data)
-  //   } catch (error) {
+  const setAlert = storeBulkBuddies((state) => state.setAlert);
 
-  //   }
-  //   finally {
-
-  //   }
-  // }
-
-  const submit = handleSubmit((data) => {
-    console.log(data)
-    console.log('errors =>', errors)
-  })
+  const submit = handleSubmit(async (data) => {
+    try {
+      setLoading(true);
+      await axios.put(`/profile/${user.id}`, data);
+      console.log("Perfil actualizado correctamente");
+      setAlert({
+        type: "success",
+        message: `Perfil actualizado correctamente`,
+      });      
+    } catch (error) {
+      console.error("Error al actualizar el perfil:", error);
+      setAlert({
+        type: "error",
+        message: `Error al actualizar el perfil`,
+      });      
+    } finally {
+      setLoading(false);
+      setEditing(false);
+    }
+  });
 
   const handleEditingEvent = () => {
-
-    console.log(isDirty)
-    console.log(dirtyFields)
-
     if (editing) {
-      console.log("Guardando")
-      submit()
-      return
+      submit();
+      return;
     }
-    setEditing(!editing)
-
-  }
-
-  const updateProfile = async () => {
-    try {
-      setLoading(true)
-      const fetch = axios.put(`/user/${user.id}`)
-      console.log(fetch.data)
-    }
-    catch (error) {
-
-    }
-    finally {
-      setLoading(false)
-    }
-
+    setEditing(!editing);
   }
 
   return (
@@ -194,6 +192,137 @@ export const UserDashboard = () => {
                   </small>
                 )}
               </FieldProfile>
+
+              <FieldProfile
+                label={"Nombre de Usuario"}
+                userValue={user.username}
+                editing={editing}
+                setEditing={setEditing}
+                register={register}
+                registerName={"username"}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: "El username es requerido",
+                  }
+                }}
+              >
+                {errors.username?.type === "required" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.username?.message}
+                  </small>
+                )}
+                {errors.username?.type === "pattern" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.username?.message}
+                  </small>
+                )}
+              </FieldProfile>  
+
+              <FieldProfile
+                label={"Rut"}
+                userValue={userData.rut || "Sin información"}
+                editing={editing}
+                setEditing={setEditing}
+                register={register}
+                registerName={"rut"}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: "El Rut es requerido",
+                  }
+                }}
+              >
+                {errors.rut?.type === "required" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.rut?.message}
+                  </small>
+                )}
+                {errors.rut?.type === "pattern" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.rut?.message}
+                  </small>
+                )}
+              </FieldProfile>              
+             
+              <FieldProfile
+                label={"Telefono"}
+                userValue={userData.phone || "Sin información"}
+                editing={editing}
+                setEditing={setEditing}
+                register={register}
+                registerName={"phone"}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: "El telefono es requerido",
+                  }
+                }}
+              >
+                {errors.phone?.type === "required" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.phone?.message}
+                  </small>
+                )}
+                {errors.phone?.type === "pattern" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.phone?.message}
+                  </small>
+                )}
+              </FieldProfile>   
+
+              <FieldProfile
+                label={"Direccion"}
+                userValue={userData.address || "Sin información"}
+                editing={editing}
+                setEditing={setEditing}
+                register={register}
+                registerName={"address"}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: "La direccion es requerida",
+                  }
+                }}
+              >
+                {errors.address?.type === "required" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.address?.message}
+                  </small>
+                )}
+                {errors.address?.type === "pattern" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.address?.message}
+                  </small>
+                )}
+              </FieldProfile>   
+              
+      
+              <FieldProfile
+                label={"Codigo Postal"}
+                userValue={userData.postal_code || "Sin información"}
+                editing={editing}
+                setEditing={setEditing}
+                register={register}
+                registerName={"postal_code"}
+                registerOptions={{
+                  required: {
+                    value: true,
+                    message: "La comuna es requerida",
+                  }
+                }}
+              >
+                {errors.postal_code?.type === "required" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.postal_code?.message}
+                  </small>
+                )}
+                {errors.postal_code?.type === "pattern" && (
+                  <small className="ml-1.5 text-red-600">
+                    {errors.postal_code?.message}
+                  </small>
+                )}
+              </FieldProfile>                                                         
 
               <FieldProfile
                 label={"Email"}
