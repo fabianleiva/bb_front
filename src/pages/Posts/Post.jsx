@@ -261,8 +261,7 @@ export const Post = () => {
                   </h2>
                   <div className="mt-2 space-y-6">
                     <p className="text-sm text-gray-600">
-                      Toocki New 20W Gan Charger Portable Mobile Phones Charger
-                      USB Type C Fast Wall Charger for Iphone Android
+                    {post.description}
                     </p>
                   </div>
 
