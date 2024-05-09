@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { storeBulkBuddies } from "../../state/state";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 export const FieldProfile = ({
   label, userValue, editing,
@@ -48,7 +48,7 @@ export const UserDashboard = () => {
 
   const isAuth = storeBulkBuddies((state) => state.isAuth)
   const user = storeBulkBuddies((state) => state.user)
-  
+
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false)
   const [editing, setEditing] = useState(false)
@@ -57,19 +57,20 @@ export const UserDashboard = () => {
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: {
       errors,
-      isDirty,
-      dirtyFields
     },
   } = useForm({
     defaultValues: {
       first_name: user.first_name,
       last_name: user.last_name,
       username: user.username,
-      email: user.email
+      email: user.email,
+      rut: userData.rut,
+      phone: userData.phone,
+      address: userData.address,
+      postal_code: userData.postal_code
     }
   })
 
@@ -85,7 +86,18 @@ export const UserDashboard = () => {
     try {
       setLoading(true);
       const response = await axios.get(`/user/${user.id}`);
-      setUserData(response.data); 
+      setUserData(response.data);
+
+      setValue("first_name", user.first_name);
+      setValue("last_name", user.last_name);
+      setValue("username", user.username);
+      setValue("email", user.email);
+      setValue("rut", response.data.rut);
+      setValue("phone", response.data.phone);
+      setValue("address", response.data.address);
+      setValue("postal_code", response.data.postal_code);
+
+
       setLoading(false);
     } catch (error) {
       console.error("Error al obtener los datos del usuario:", error);
@@ -99,17 +111,20 @@ export const UserDashboard = () => {
     try {
       setLoading(true);
       await axios.put(`/profile/${user.id}`, data);
-      console.log("Perfil actualizado correctamente");
+
+      await getUserData();
+      console.log("Perfil actualizado correctamente", data);
+
       setAlert({
         type: "success",
         message: `Perfil actualizado correctamente`,
-      });      
+      });
     } catch (error) {
       console.error("Error al actualizar el perfil:", error);
       setAlert({
         type: "error",
-        message: `Error al actualizar el perfil`,
-      });      
+        message: error.message || `Error al actualizar el perfil`,
+      });
     } finally {
       setLoading(false);
       setEditing(false);
@@ -217,7 +232,7 @@ export const UserDashboard = () => {
                     {errors.username?.message}
                   </small>
                 )}
-              </FieldProfile>  
+              </FieldProfile>
 
               <FieldProfile
                 label={"Rut"}
@@ -243,8 +258,8 @@ export const UserDashboard = () => {
                     {errors.rut?.message}
                   </small>
                 )}
-              </FieldProfile>              
-             
+              </FieldProfile>
+
               <FieldProfile
                 label={"Telefono"}
                 userValue={userData.phone || "Sin información"}
@@ -269,7 +284,7 @@ export const UserDashboard = () => {
                     {errors.phone?.message}
                   </small>
                 )}
-              </FieldProfile>   
+              </FieldProfile>
 
               <FieldProfile
                 label={"Direccion"}
@@ -295,9 +310,9 @@ export const UserDashboard = () => {
                     {errors.address?.message}
                   </small>
                 )}
-              </FieldProfile>   
-              
-      
+              </FieldProfile>
+
+
               <FieldProfile
                 label={"Codigo Postal"}
                 userValue={userData.postal_code || "Sin información"}
@@ -322,7 +337,7 @@ export const UserDashboard = () => {
                     {errors.postal_code?.message}
                   </small>
                 )}
-              </FieldProfile>                                                         
+              </FieldProfile>
 
               <FieldProfile
                 label={"Email"}
