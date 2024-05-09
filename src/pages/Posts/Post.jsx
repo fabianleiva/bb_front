@@ -230,7 +230,7 @@ export const Post = () => {
                         Ingresa tu contribución
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         id="contribution"
                         name="user_contribution"
                         {...register("user_contribution")}
