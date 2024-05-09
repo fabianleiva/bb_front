@@ -79,7 +79,7 @@ export const UserDashboard = () => {
     } else {
       getUserData();
     }
-  }, []);
+  }, [userData]);
 
   const getUserData = async () => {
     try {
